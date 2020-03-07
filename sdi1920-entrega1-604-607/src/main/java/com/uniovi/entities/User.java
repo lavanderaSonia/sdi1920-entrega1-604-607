@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -33,7 +34,7 @@ public class User {
 	@OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
 	private Set<Invitation> invitations;
 	
-	@OneToMany()
+	@ManyToMany()
 	private Set<User> friends;
 	
 	
