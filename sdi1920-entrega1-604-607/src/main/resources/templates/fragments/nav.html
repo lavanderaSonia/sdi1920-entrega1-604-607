@@ -36,11 +36,11 @@
 					th:text="#{signup.message}">> <span
 						class="glyphicon glyphicon-user"></span> Registrate
 				</a></li>
-				<li><a href="/login"
+				<li sec:authorize="!isAuthenticated()"><a href="/login"
 					th:text="#{login.message}">> <span
 						class="glyphicon glyphicon-log-in"></span> Identificate
 				</a></li>
-				<li><a href="/logout"> <span
+				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
 						class="glyphicon glyphicon-log-out"></span> Desconectar
 				</a></li>
 			</ul>
