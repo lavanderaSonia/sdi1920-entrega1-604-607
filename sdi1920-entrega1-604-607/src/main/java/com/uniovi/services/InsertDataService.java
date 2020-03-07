@@ -18,5 +18,6 @@ public class InsertDataService {
 		User admin = new User("admin@email.com", "admin", "admin", "admin", "admin", "ROLE_ADMIN");
 		
 		usersService.addUser(admin);
+		usersService.addUser(new User("usuario@email.com", "usuario", "usuario", "usuario", "usuario", "ROLE_USER"));
 	}
 }
