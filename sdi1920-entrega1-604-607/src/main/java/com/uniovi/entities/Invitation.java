@@ -18,6 +18,7 @@ public class Invitation {
 	@ManyToOne
 	private User applicant; //usuario que solicita la invitación de amistad
 	
+	@ManyToOne
 	private User recipient; //usuario destinatario de esa solicitud
 	private boolean accept; //peticion aceptada? -> amigos
 	
