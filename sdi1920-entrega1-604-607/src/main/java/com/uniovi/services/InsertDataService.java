@@ -20,16 +20,17 @@ public class InsertDataService {
 	@PostConstruct
 	public void init() {
 		User admin = new User("admin@email.com", "admin", "admin", "admin", "admin", "ROLE_ADMIN");
+		User user = new User("usuario@email.com", "usuario", "usuario", "usuario", "usuario", "ROLE_USER");
 		User thalia = new User("thalia@email.com", "Thalía", "Cuetos", "pass", "pass", "ROLE_USER");
 		User sonia = new User("sonia@email.com", "Sonia", "García", "pass", "pass", "ROLE_USER");
 		
 		usersService.addUser(admin);
 		usersService.addUser(sonia);
 		usersService.addUser(thalia);
-		usersService.addUser(new User("usuario@email.com", "usuario", "usuario", "usuario", "usuario", "ROLE_USER"));
-	
-		Invitation inv = new Invitation(sonia, thalia, false);
-		invitationsService.addInvitation(inv);
-		
+		usersService.addUser(user);
+
+		invitationsService.addInvitation(new Invitation(sonia, thalia, false));
+		invitationsService.addInvitation(new Invitation(admin, thalia, false));
+		invitationsService.addInvitation(new Invitation(user, thalia, false));
 	}
 }

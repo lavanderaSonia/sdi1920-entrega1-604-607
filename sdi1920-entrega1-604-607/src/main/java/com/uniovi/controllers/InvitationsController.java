@@ -1,7 +1,10 @@
 package com.uniovi.controllers;
 
+import java.util.LinkedList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +23,7 @@ public class InvitationsController {
 
 	@Autowired
 	private InvitationsService invitationsService;
-	
+
 	@Autowired
 	private UsersService usersService;
 
@@ -29,24 +32,47 @@ public class InvitationsController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersService.findByEmail(auth.getName());
 		
-		Page<Invitation> invitations = invitationsService.getInvitationsOf(pageable, user);
+		Page<Invitation> invitations = new PageImpl<Invitation>(
+				new LinkedList<Invitation>(user.getInvitations()));
+		
 		model.addAttribute("page", invitations);
 		model.addAttribute("invitationsList", invitations.getContent());
-		
+
 		return "invitations/list";
 	}
-	
+
 	@RequestMapping("invitation/list/update")
 	public String updateInvitations(Pageable pageable, Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersService.findByEmail(auth.getName());
 		
-		Page<Invitation> invitations = invitationsService.getInvitationsOf(pageable, user);
+		Page<Invitation> invitations = new PageImpl<Invitation>(
+				new LinkedList<Invitation>(user.getInvitations()));
+		
 		model.addAttribute("page", invitations);
 		model.addAttribute("invitationsList", invitations.getContent());
-		
+
 		return "invitations/list :: tableInvitations";
 	}
+
+	@RequestMapping("invitation/accept/{id}")
+	public String acceptInvitation(@PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = usersService.findByEmail(auth.getName());
+
+		invitationsService.acceptInvitation(user, id);
+
+		return "redirect:/invitation/list";
+	}
 	
+	@RequestMapping("invitation/deny/{id}")
+	public String denyInvitation(@PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = usersService.findByEmail(auth.getName());
+
+		invitationsService.denyInvitation(user, id);
+
+		return "redirect:/invitation/list";
+	}
 	
 }

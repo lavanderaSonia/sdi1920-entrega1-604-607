@@ -2,8 +2,10 @@ package com.uniovi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.uniovi.entities.Invitation;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.InvitationsRepository;
 
 @Service
@@ -22,5 +24,24 @@ public class InvitationsService {
 	
 	public void deleteInvitation(Long id) {
 		invitationsRepository.deleteById(id);
+	}
+
+	@Transactional
+	public void acceptInvitation(User user, Long id) {
+		Invitation invitation = getInvitation(id);
+		if(!invitation.getRecipient().equals(user))
+			return;
+		
+		invitation.getRecipient().getFriends().add(invitation.getApplicant());
+		invitation.getApplicant().getFriends().add(invitation.getRecipient());
+		deleteInvitation(id);
+	}
+
+	public void denyInvitation(User user, Long id) {
+		Invitation invitation = getInvitation(id);
+		if(!invitation.getRecipient().equals(user))
+			return;
+		
+		deleteInvitation(id);
 	}
 }
