@@ -113,6 +113,26 @@ public class User {
 		this.role = role;
 	}
 
+
+	public Set<Invitation> getInvitations() {
+		return invitations;
+	}
+
+
+	public void setInvitations(Set<Invitation> invitations) {
+		this.invitations = invitations;
+	}
+
+
+	public Set<User> getFriends() {
+		return friends;
+	}
+
+
+	public void setFriends(Set<User> friends) {
+		this.friends = friends;
+	}
+
 	
 	
 	

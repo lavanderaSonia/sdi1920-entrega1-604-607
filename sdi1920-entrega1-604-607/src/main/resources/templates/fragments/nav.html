@@ -12,6 +12,8 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
+				<li sec:authorize="hasRole('ROLE_USER')"><a href="/invitation/list" th:text="#{invitation.menu}">Ver
+								invitaciones</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a id="btnLanguage" href="#"
