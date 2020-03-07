@@ -10,7 +10,7 @@
 			<img src="/img/logo.png" alt="logo" />
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav"">
+			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -28,7 +28,7 @@
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.es}">Español</span>
+								th:text="#{language.es}">Espa�ol</span>
 						</a></li>
 					</ul></li>
 
@@ -36,11 +36,11 @@
 					th:text="#{signup.message}">> <span
 						class="glyphicon glyphicon-user"></span> Registrate
 				</a></li>
-				<li><a href="/login"
+				<li sec:authorize="!isAuthenticated()"><a href="/login"
 					th:text="#{login.message}">> <span
-						class="glyphicon glyphicon-log-in"></span> Identifícate
+						class="glyphicon glyphicon-log-in"></span> Identificate
 				</a></li>
-				<li><a href="/logout"> <span
+				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
 						class="glyphicon glyphicon-log-out"></span> Desconectar
 				</a></li>
 			</ul>
