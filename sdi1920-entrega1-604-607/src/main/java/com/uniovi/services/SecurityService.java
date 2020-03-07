@@ -19,7 +19,7 @@ public class SecurityService {
 	private UserDetailsService userDetailsService;
 	private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
 
-	public String findLoggedInDni() {
+	public String findLoggedInEmail() {
 		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
 		if (userDetails instanceof UserDetails) {
 			return ((UserDetails) userDetails).getUsername();
