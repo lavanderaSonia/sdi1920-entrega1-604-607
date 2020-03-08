@@ -1,7 +1,10 @@
 package com.uniovi;
 
+import java.util.List;
+
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.*;
@@ -103,5 +106,37 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	@Test
 	public void prueba10() {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Desconectar", PO_View.getTimeout());
+	}
+	
+	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un listado que
+	// contenga varias invitaciones recibidas
+	@Test
+	public void prueba17() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+		
+		driver.navigate().to(URL);
+		// Comprobamos que hay 3
+		Assert.assertEquals(3, PO_PrivateView.goToInvitations(driver).size());
+		// Comprobamos que son las esperadas
+		PO_NavView.checkElement(driver, "text", "Sonia");
+		PO_NavView.checkElement(driver, "text", "usuario");
+		PO_NavView.checkElement(driver, "text", "admin");
+	}
+	
+	// Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de una de ellas y
+	// comprobar que dicha solicitud desaparece del listado de invitaciones.
+	@Test
+	public void prueba18() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+		
+		driver.navigate().to(URL);
+		PO_PrivateView.goToInvitations(driver);
+		// Aceptamos la invitacion de Sonia
+		PO_NavView.checkElement(driver, "id", "accept/Sonia").get(0).click();
+		
+		// Comprobamos que ya no está
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Sonia", PO_View.getTimeout());
 	}
 }

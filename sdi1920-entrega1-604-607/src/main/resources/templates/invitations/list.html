@@ -33,9 +33,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="invitation : ${invitationsList}">
+					<tr th:id="${'invitation' + invitation.id}" th:each="invitation : ${invitationsList}">
 						<td th:text="${invitation.applicant.name + ' ' + invitation.applicant.lastName}"> Nombre </td>
-						<td><a th:href="${'/invitation/accept/' + invitation.id}" th:text="#{accept}"> Aceptar </a></td>
+						<td><a th:id="${'accept/' + invitation.applicant.name}" th:href="${'/invitation/accept/' + invitation.id}" th:text="#{accept}"> Aceptar </a></td>
 						<td><a th:href="${'/invitation/deny/' + invitation.id}" th:text="#{deny}"> Rechazar </a></td>
 					</tr>
 				</tbody>
