@@ -1,21 +1,21 @@
 package com.uniovi;
 
-import java.util.List;
-
-import org.junit.*;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
+import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -25,7 +25,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\thali_12wmf8x\\Documents\\Clase\\SDI\\Practica-Spring\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
 
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
@@ -59,13 +59,32 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	static public void end() {
 		driver.quit();
 	}
+
+	// [Prueba1] Registro de Usuario con datos válidos
+	@Test
+	public void prueba01() {
+		// Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "123456");
+		// Comprobamos que entramos en la sección privada
+		PO_View.checkElement(driver, "text", "sonia@gmail.com");
+
+	}
 	
+	//[Prueba2] Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos).
+	@Test
+	public void prueba02() {
+		
+	}
+
 	// Inicio de sesión con datos válidos (administrador).
 	@Test
 	public void prueba05() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		// TODO: comprobar que esta en la vista que lista todos los usuarios con opciones de administrador
+		// TODO: comprobar que esta en la vista que lista todos los usuarios con
+		// opciones de administrador
 		PO_View.checkElement(driver, "text", "usuarios");
 	}
 
@@ -77,8 +96,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// TODO: comprobar que esta en la vista que lista todos los usuarios
 		PO_View.checkElement(driver, "text", "usuarios");
 	}
-	
-	// Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
+
+	// Inicio de sesión con datos inválidos (usuario estándar, campo email y
+	// contraseña vacíos)
 	@Test
 	public void prueba07() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -86,9 +106,10 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobar que seguimos en la vista de login
 		PO_View.checkElement(driver, "text", "Login");
 	}
-	
-	//Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña
-	//		incorrecta).
+
+	// Inicio de sesión con datos válidos (usuario estándar, email existente, pero
+	// contraseña
+	// incorrecta).
 	@Test
 	public void prueba08() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -96,32 +117,35 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobar que ha salido el mensaje de error
 		PO_View.checkElement(driver, "text", "Usuario o contraseña incorrectos.");
 	}
-	
-	// Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio de
+
+	// Hacer click en la opción de salir de sesión y comprobar que se redirige a la
+	// página de inicio de
 	// sesión (Login)
 	@Test
 	public void prueba09() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		
+
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 		// Comprobar que estamos en la vista de login
 		PO_View.checkElement(driver, "text", "Password");
 	}
-	
-	// Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado
+
+	// Comprobar que el botón cerrar sesión no está visible si el usuario no está
+	// autenticado
 	@Test
 	public void prueba10() {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Desconectar", PO_View.getTimeout());
 	}
-	
-	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un listado que
+
+	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un
+	// listado que
 	// contenga varias invitaciones recibidas
 	@Test
 	public void prueba17() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
-		
+
 		driver.navigate().to(URL);
 		// Comprobamos que hay 3
 		Assert.assertEquals(3, PO_PrivateView.goToInvitations(driver).size());
@@ -130,19 +154,20 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkElement(driver, "text", "usuario");
 		PO_NavView.checkElement(driver, "text", "admin");
 	}
-	
-	// Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de una de ellas y
+
+	// Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de
+	// una de ellas y
 	// comprobar que dicha solicitud desaparece del listado de invitaciones.
 	@Test
 	public void prueba18() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
-		
+
 		driver.navigate().to(URL);
 		PO_PrivateView.goToInvitations(driver);
 		// Aceptamos la invitacion de Sonia
 		PO_NavView.checkElement(driver, "id", "accept/Sonia").get(0).click();
-		
+
 		// Comprobamos que ya no está
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Sonia", PO_View.getTimeout());
 	}
