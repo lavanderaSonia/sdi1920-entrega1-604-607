@@ -31,7 +31,7 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
 	private Set<Publication> publications;
 	
-	@OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
 	private Set<Invitation> invitations;
 	
 	@ManyToMany()
@@ -112,6 +112,26 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+
+	public Set<Invitation> getInvitations() {
+		return invitations;
+	}
+
+
+	public void setInvitations(Set<Invitation> invitations) {
+		this.invitations = invitations;
+	}
+
+
+	public Set<User> getFriends() {
+		return friends;
+	}
+
+
+	public void setFriends(Set<User> friends) {
+		this.friends = friends;
 	}
 
 	
