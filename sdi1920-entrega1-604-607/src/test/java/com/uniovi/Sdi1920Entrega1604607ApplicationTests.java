@@ -9,10 +9,12 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.uniovi.tests.pageobjects.PO_AddPublicationView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
+import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -142,5 +144,40 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		
 		// Comprobamos que ya no está
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Sonia", PO_View.getTimeout());
+	}
+	
+	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar el botón Submit.
+	// Comprobar que la publicación sale en el listado de publicaciones de dicho usuario.
+	@Test
+	public void prueba24() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+		
+		driver.navigate().to(URL);
+		
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
+		
+		PO_AddPublicationView.fillForm(driver, "Prueba24", "Esto es una prueba");
+		
+		// TODO: comprobar que estamos en la vista de listar mis publicaciones
+		// TODO: comprobar que aparece la nueva publicacion
+	}
+	
+	// Ir al formulario de crear publicaciones, rellenarla con datos inválidos (campo título vacío) y
+	// pulsar el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio.
+	@Test
+	public void prueba25() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+		
+		driver.navigate().to(URL);
+		
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
+		
+		PO_AddPublicationView.fillForm(driver, "", "");
+		
+		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
 	}
 }
