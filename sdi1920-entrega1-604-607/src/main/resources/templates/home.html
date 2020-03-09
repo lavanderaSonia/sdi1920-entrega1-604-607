@@ -6,12 +6,12 @@
 	<div class="container" style="text-align: center">
 		<h2 th:text="#{welcome.message}"></h2>
 		<h3>
-			<p th:text="#{private}">>Esta es una zona privada de la web
+			<p th:text="#{private}"></p>
 		</h3>
 		<p th:text="#{usuario.autenticado}">
-			Usuario Autenticado como : <span
-				sec:authentication="principal.username" th:inline="text"> </span>
 		</p>
+		<span
+				sec:authentication="principal.username" th:inline="text"> </span>
 		</div>
 	</div>
 </body>
