@@ -1,10 +1,11 @@
 package com.uniovi;
-
-import org.junit.*;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -173,7 +174,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// pulsar el botón Submit. Comprobar que se muestra el mensaje de campo
 	// obligatorio.
 	@Test
-	public void prueba25() {
+	public void prueba25() {		
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
 
@@ -182,7 +183,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
-		PO_AddPublicationView.fillForm(driver, "", "");
+		PO_AddPublicationView.fillForm(driver, " ", " ");
 
 		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
 	}
