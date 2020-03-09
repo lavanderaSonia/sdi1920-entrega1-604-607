@@ -24,21 +24,10 @@ public class UsersController {
 	private RolesService rolesService;
 
 	@Autowired
-	private RolesService rolesService;
-
-	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
 	@Autowired
 	private SecurityService securityService;
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
-		return "login";
-	}
-
-	@Autowired
-	private SignUpFormValidator signUpFormValidator;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {

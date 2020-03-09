@@ -3,8 +3,6 @@ package com.uniovi;
 import java.util.List;
 
 import org.junit.*;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -16,6 +14,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
+import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -63,6 +64,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// Inicio de sesión con datos válidos (administrador).
 	@Test
 	public void prueba05() {
+		PO_Properties.getSPANISH();
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		// TODO: comprobar que esta en la vista que lista todos los usuarios con opciones de administrador
