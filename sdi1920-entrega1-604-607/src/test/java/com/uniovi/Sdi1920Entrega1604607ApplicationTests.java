@@ -3,14 +3,21 @@ package com.uniovi;
 import java.util.List;
 
 import org.junit.*;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.Test;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import com.uniovi.tests.pageobjects.*;
+import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
-
-import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Sdi1920Entrega1604607ApplicationTests {
