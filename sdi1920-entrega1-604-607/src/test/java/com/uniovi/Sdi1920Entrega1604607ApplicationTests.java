@@ -1,7 +1,11 @@
 package com.uniovi;
 
-import org.junit.*;
+import java.util.List;
+
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
@@ -15,6 +19,10 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_RegisterView;
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
+import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -24,7 +32,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\thali_12wmf8x\\Documents\\Clase\\SDI\\Practica-Spring\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
 
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
@@ -51,6 +59,68 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// Antes de la primera prueba
 	@BeforeClass
 	static public void begin() {
+	}
+
+	// Al finalizar la última prueba
+	@AfterClass
+	static public void end() {
+		driver.quit();
+	}
+
+	// [Prueba1] Registro de Usuario con datos válidos
+	@Test
+	public void prueba01() {
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
+		elementos.get(0).click();
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "123456");
+		// Comprobamos que entramos en la sección privada
+		PO_View.checkElement(driver, "text", "sonia@gmail.com");
+
+	}
+
+	// [Prueba2] Registro de Usuario con datos inválidos (email vacío, nombre vacío,
+	// apellidos vacíos).
+	@Test
+	public void prueba02() {
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
+		elementos.get(0).click();
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "", "Sonia", "Garcia", "123456", "123456");
+		// Comprobamos que entramos en la sección privada
+		PO_RegisterView.checkKey(driver, "Error.signup.empty", PO_Properties.getSPANISH());
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "sonia1@gmail.com", "", "Garcia", "123456", "123456");
+		// Comprobamos que entramos en la sección privada
+		PO_RegisterView.checkKey(driver, "Error.signup.empty", PO_Properties.getSPANISH());
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "sonia2@gmail.com", "Sonia", "", "123456", "123456");
+		// Comprobamos que entramos en la sección privada
+		PO_RegisterView.checkKey(driver, "Error.signup.empty", PO_Properties.getSPANISH());
+	}
+
+	// [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña
+	// inválida).
+	@Test
+	public void prueba03() {
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
+		elementos.get(0).click();
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "sonia3@gmail.com", "Sonia", "Garcia", "123456", "12345");
+		// Comprobamos que entramos en la sección privada
+		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
+	}
+	
+	//[Prueba4] Registro de Usuario con datos inválidos (email existente).
+	@Test
+	public void prueba04() {
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
+		elementos.get(0).click();
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "12345");
+		// Comprobamos que entramos en la sección privada
+		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
+	
 	}
 
 	// Inicio de sesión con datos válidos (administrador).

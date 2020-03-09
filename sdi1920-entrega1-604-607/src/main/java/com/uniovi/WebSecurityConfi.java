@@ -45,7 +45,7 @@ public class WebSecurityConfi extends WebSecurityConfigurerAdapter {
 				.and()
 					.formLogin()
 					.loginPage("/login").permitAll()
-					.defaultSuccessUrl("/users/list")
+					.defaultSuccessUrl("/home")
 				.and()
 					.logout()
 					.permitAll();
