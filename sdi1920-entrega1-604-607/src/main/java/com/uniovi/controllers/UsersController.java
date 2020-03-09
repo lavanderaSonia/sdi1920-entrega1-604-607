@@ -19,9 +19,6 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
-	
-	@Autowired
-	private RolesService rolesService;
 
 	@Autowired
 	private RolesService rolesService;
@@ -36,14 +33,6 @@ public class UsersController {
 	public String login(Model model) {
 		return "login";
 	}
-
-	@Autowired
-	private SignUpFormValidator signUpFormValidator;
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
-		return "login";
-	}	
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {

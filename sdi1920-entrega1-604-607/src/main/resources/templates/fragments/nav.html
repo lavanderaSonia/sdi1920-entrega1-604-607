@@ -14,6 +14,14 @@
 				<li><a href="/">Home</a></li>
 				<li sec:authorize="isAuthenticated()"><a href="/invitation/list" th:text="#{invitation.menu}">Ver
 								invitaciones</a></li>
+				<li class="dropdown" sec:authorize="isAuthenticated()"><a id="publications-menu" href="#"
+					class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false" th:text="#{publication.menu}">
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/publication/add" th:text="#{publication.menu.add}">Nueva publicacion</a></li>
+					</ul>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a id="btnLanguage" href="#"
