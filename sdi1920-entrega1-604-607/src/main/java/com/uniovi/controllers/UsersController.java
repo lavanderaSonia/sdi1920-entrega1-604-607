@@ -21,14 +21,14 @@ public class UsersController {
 	private UsersService usersService;
 
 	@Autowired
-	private RolesService rolesService;
-
-	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
 	@Autowired
 	private SecurityService securityService;
-
+	
+	@Autowired
+	private RolesService rolesService;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "login";

@@ -53,18 +53,14 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	static public void begin() {
 	}
 
-	// Al finalizar la última prueba
-	@AfterClass
-	static public void end() {
-		driver.quit();
-	}
-	
 	// Inicio de sesión con datos válidos (administrador).
 	@Test
 	public void prueba05() {
+		PO_Properties.getSPANISH();
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		// TODO: comprobar que esta en la vista que lista todos los usuarios con opciones de administrador
+		// TODO: comprobar que esta en la vista que lista todos los usuarios con
+		// opciones de administrador
 		PO_View.checkElement(driver, "text", "usuarios");
 	}
 
@@ -76,8 +72,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// TODO: comprobar que esta en la vista que lista todos los usuarios
 		PO_View.checkElement(driver, "text", "usuarios");
 	}
-	
-	// Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
+
+	// Inicio de sesión con datos inválidos (usuario estándar, campo email y
+	// contraseña vacíos)
 	@Test
 	public void prueba07() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -85,9 +82,10 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobar que seguimos en la vista de login
 		PO_View.checkElement(driver, "text", "Login");
 	}
-	
-	//Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña
-	//		incorrecta).
+
+	// Inicio de sesión con datos válidos (usuario estándar, email existente, pero
+	// contraseña
+	// incorrecta).
 	@Test
 	public void prueba08() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -95,32 +93,35 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobar que ha salido el mensaje de error
 		PO_View.checkElement(driver, "text", "Usuario o contraseña incorrectos.");
 	}
-	
-	// Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio de
+
+	// Hacer click en la opción de salir de sesión y comprobar que se redirige a la
+	// página de inicio de
 	// sesión (Login)
 	@Test
 	public void prueba09() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		
+
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 		// Comprobar que estamos en la vista de login
 		PO_View.checkElement(driver, "text", "Password");
 	}
-	
-	// Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado
+
+	// Comprobar que el botón cerrar sesión no está visible si el usuario no está
+	// autenticado
 	@Test
 	public void prueba10() {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Desconectar", PO_View.getTimeout());
 	}
-	
-	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un listado que
+
+	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un
+	// listado que
 	// contenga varias invitaciones recibidas
 	@Test
 	public void prueba17() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
-		
+
 		driver.navigate().to(URL);
 		// Comprobamos que hay 3
 		Assert.assertEquals(3, PO_PrivateView.goToInvitations(driver).size());
@@ -129,55 +130,66 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkElement(driver, "text", "usuario");
 		PO_NavView.checkElement(driver, "text", "admin");
 	}
-	
-	// Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de una de ellas y
+
+	// Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de
+	// una de ellas y
 	// comprobar que dicha solicitud desaparece del listado de invitaciones.
 	@Test
 	public void prueba18() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
-		
+
 		driver.navigate().to(URL);
 		PO_PrivateView.goToInvitations(driver);
 		// Aceptamos la invitacion de Sonia
 		PO_NavView.checkElement(driver, "id", "accept/Sonia").get(0).click();
-		
+
 		// Comprobamos que ya no está
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Sonia", PO_View.getTimeout());
 	}
-	
-	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar el botón Submit.
-	// Comprobar que la publicación sale en el listado de publicaciones de dicho usuario.
+
+	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar
+	// el botón Submit.
+	// Comprobar que la publicación sale en el listado de publicaciones de dicho
+	// usuario.
 	@Test
 	public void prueba24() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
-		
+
 		driver.navigate().to(URL);
-		
+
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
-		
+
 		PO_AddPublicationView.fillForm(driver, "Prueba24", "Esto es una prueba");
-		
+
 		// TODO: comprobar que estamos en la vista de listar mis publicaciones
 		// TODO: comprobar que aparece la nueva publicacion
 	}
-	
-	// Ir al formulario de crear publicaciones, rellenarla con datos inválidos (campo título vacío) y
-	// pulsar el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio.
+
+	// Ir al formulario de crear publicaciones, rellenarla con datos inválidos
+	// (campo título vacío) y
+	// pulsar el botón Submit. Comprobar que se muestra el mensaje de campo
+	// obligatorio.
 	@Test
 	public void prueba25() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
-		
+
 		driver.navigate().to(URL);
-		
+
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
-		
+
 		PO_AddPublicationView.fillForm(driver, "", "");
-		
+
 		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
+	}
+
+	// Al finalizar la última prueba
+	@AfterClass
+	static public void end() {
+		driver.quit();
 	}
 }
