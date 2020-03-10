@@ -20,18 +20,16 @@ public class Invitation {
 	
 	@ManyToOne
 	private User recipient; //usuario destinatario de esa solicitud
-	private boolean accept; //peticion aceptada? -> amigos
 	
 	public Invitation() {
 		
 	}
 	
 
-	public Invitation(User applicant, User recipient, boolean accept) {
+	public Invitation(User applicant, User recipient) {
 		super();
 		this.applicant = applicant;
 		this.recipient = recipient;
-		this.accept = accept;
 	}
 
 
@@ -49,14 +47,6 @@ public class Invitation {
 
 	public void setApplicant(User applicant) {
 		this.applicant = applicant;
-	}
-
-	public boolean isAccept() {
-		return accept;
-	}
-
-	public void setAccept(boolean accept) {
-		this.accept = accept;
 	}
 
 

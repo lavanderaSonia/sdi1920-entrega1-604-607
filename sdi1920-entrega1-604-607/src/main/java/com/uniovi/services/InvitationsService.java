@@ -1,5 +1,7 @@
 package com.uniovi.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +45,23 @@ public class InvitationsService {
 			return;
 		
 		deleteInvitation(id);
+	}
+
+	public List<User> getInvitedUsersBy(User applicant) {
+		return invitationsRepository.getInvitedUsersBy(applicant);
+	}
+	
+	public List<User> getUsersWhoInvited(User recipient) {
+		return invitationsRepository.getUsersWhoInvited(recipient);
+	}
+
+	public void sendInvitation(User from, User to) {
+		if(getInvitedUsersBy(from).contains(to) || from.getFriends().contains(to)
+				|| getUsersWhoInvited(from).contains(to))
+			return;
+		
+		Invitation inv = new Invitation(from, to);
+		to.getInvitations().add(inv);
+		addInvitation(inv);
 	}
 }

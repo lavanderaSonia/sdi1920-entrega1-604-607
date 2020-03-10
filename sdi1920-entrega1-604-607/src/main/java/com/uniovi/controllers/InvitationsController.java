@@ -75,4 +75,15 @@ public class InvitationsController {
 		return "redirect:/invitation/list";
 	}
 	
+	@RequestMapping("invitation/send/{id}")
+	public String sendInvitation(@PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User activeUser = usersService.findByEmail(auth.getName());
+		User otherUser = usersService.getUser(id);
+		
+		invitationsService.sendInvitation(activeUser, otherUser);
+		
+		return "redirect:/user/list";
+	}
+	
 }

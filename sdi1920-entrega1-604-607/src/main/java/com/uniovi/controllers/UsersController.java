@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
+import com.uniovi.services.InvitationsService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -35,16 +36,17 @@ public class UsersController {
 	@Autowired
 	private SecurityService securityService;
 
-	
 	@Autowired
 	private RolesService rolesService;
-	
-	
+
+	@Autowired
+	private InvitationsService invitationsService;
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "login";
 	}
-	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
@@ -63,48 +65,49 @@ public class UsersController {
 		return "redirect:home";
 	}
 
-	
 	@RequestMapping("/user/list")
-	public String getListado(Model model, Pageable pageable,@RequestParam(value="", required=false) String searchText) {
+	public String getListado(Model model, Pageable pageable,
+			@RequestParam(value = "", required = false) String searchText) {
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());
-		if(searchText!=null && !searchText.isEmpty())
-			users = usersService.searchByNameLastNameAndEmail(pageable, searchText);
-		else {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			String email = auth.getName();
-			User userActive = usersService.getUserByEmail(email);
-			users=usersService.getUsers(userActive.getName(), pageable);
-		}
-		model.addAttribute("usersList", users.getContent()); 
-		model.addAttribute("page", users);
-		return "user/list";
-	}
-	
-	
-	@RequestMapping("/user/friends/list")
-	public String getListadoAmigos(Model model, Pageable pageable) {
-		Page<User> users = new PageImpl<User>(new LinkedList<User>());
-		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User userActive = usersService.getUserByEmail(email);
-		users=usersService.getFriends(userActive.getName(), pageable);
+		if (searchText != null && !searchText.isEmpty())
+			users = usersService.searchByNameLastNameAndEmail(pageable, searchText);
+		else {
+			users = usersService.getUsers(userActive.getName(), pageable);
+		}
+
+		model.addAttribute("invitedUsers", invitationsService.getInvitedUsersBy(userActive));
+		model.addAttribute("friends", userActive.getFriends());
+		model.addAttribute("otherUsers", invitationsService.getUsersWhoInvited(userActive));
 		
-		
-		model.addAttribute("friendsList", users.getContent()); 
+		model.addAttribute("usersList", users.getContent());
+		model.addAttribute("page", users);
+		return "user/list";
+	}
+
+	@RequestMapping("/user/friends/list")
+	public String getListadoAmigos(Model model, Pageable pageable) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User userActive = usersService.getUserByEmail(email);
+		users = usersService.getFriends(userActive.getName(), pageable);
+
+		model.addAttribute("friendsList", users.getContent());
 		model.addAttribute("page", users);
 		return "friends/list";
 	}
-	
+
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User userActive = usersService.getUserByEmail(email);
-		//model.addAttribute("markList", userActive.getMarks());
+		// model.addAttribute("markList", userActive.getMarks());
 		return "home";
 	}
-	
-	
 
 }

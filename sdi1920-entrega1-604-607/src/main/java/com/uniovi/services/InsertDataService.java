@@ -40,10 +40,11 @@ public class InsertDataService {
 		User sonia = new User("sonia@email.com", "Sonia", "García", "pass", "pass", "ROLE_USER", friendsOfSonia);
 		
 		usersService.addUser(sonia);
-
-		invitationsService.addInvitation(new Invitation(admin, thalia, false));
-		invitationsService.addInvitation(new Invitation(user, thalia, false));
 		
+		thalia.getFriends().add(sonia);
+		user.getFriends().add(sonia);
 		
+		invitationsService.addInvitation(new Invitation(admin, thalia));
+		invitationsService.addInvitation(new Invitation(user, thalia));		
 	}
 }
