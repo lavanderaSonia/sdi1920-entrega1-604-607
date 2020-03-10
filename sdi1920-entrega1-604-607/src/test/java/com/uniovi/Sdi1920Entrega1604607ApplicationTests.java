@@ -262,6 +262,37 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
 
 	}
+	
+	// Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario.
+	// Comprobar que la solicitud de amistad aparece en el listado de invitaciones (punto siguiente).
+	@Test
+	public void prueba15() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "usuario@email.com", "usuario");
+		
+		// Ya estamos en la lista de usuarios, asique mandamos una invitación
+		PO_View.checkElement(driver, "id", "send/Thalía").get(0).click();
+		
+		// Salimos para ir a la otra cuenta
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+		// Comprobamos que ha llegado la invitación
+		PO_PrivateView.goToInvitations(driver);
+		PO_NavView.checkElement(driver, "text", "usuario usuario");
+	}
+	
+	// Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario al
+	// que ya le habíamos enviado la invitación previamente.
+	@Test
+	public void prueba16() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "usuario@email.com", "usuario");
+		
+		// Comprobamos que hay un texto que indica que ya se
+		// ha enviado una invitación al usuario de la prueba 15.
+		// Por lo tanto, no hay enlace para enviarla
+		PO_NavView.checkElement(driver, "id", "sent/Thalía");
+	}
 
 	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un
 	// listado que

@@ -45,6 +45,5 @@ public class InsertDataService {
 		user.getFriends().add(sonia);
 		
 		invitationsService.addInvitation(new Invitation(admin, thalia));
-		invitationsService.addInvitation(new Invitation(user, thalia));		
 	}
 }
