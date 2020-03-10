@@ -39,6 +39,15 @@ public class PublicationsController {
 		return "publications/add";
 	}
 	
+	@RequestMapping("publication/list")
+	public String getListPublication(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User usuarioSesion = usersService.findByEmail(auth.getName());
+		model.addAttribute("publication", new Publication());
+		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(usuarioSesion));
+		return "publications/list";
+	}
+	
 	@RequestMapping(value = "publication/add", method = RequestMethod.POST)
 	public String addPublication(Model model, @Validated Publication publication, BindingResult result,
 				@RequestParam(required=false, value="photo") MultipartFile photo) {
@@ -63,7 +72,7 @@ public class PublicationsController {
 				return "error";
 			}
 		// TODO: redireccionar a listar mis publicaciones
-		return "home";
+		return "redirect:publication/list";
 	}
 	
 }

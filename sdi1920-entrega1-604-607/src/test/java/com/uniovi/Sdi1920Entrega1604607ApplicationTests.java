@@ -3,7 +3,6 @@ package com.uniovi;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -30,9 +29,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
+	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\thali_12wmf8x\\Documents\\Clase\\SDI\\Practica-Spring\\geckodriver024win64.exe";
-
+	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
 
@@ -355,6 +354,34 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
 	}
 
+	
+	
+	//[Prueba26] Mostrar el listado de publicaciones de un usuario y comprobar que se muestran todas las que existen para dicho usuario.
+	
+	@Test
+	public void Prueba26() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+		
+		
+		
+		//Navegamos hasta la opción de listar publicaciones de un usuario en sesión
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/list").get(0).click();
+		
+		Assert.assertEquals(2,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+		
+		PO_View.checkElement(driver, "text", "10/03/2020");
+		PO_View.checkElement(driver, "text", "Creación de la aplicación");
+		PO_View.checkElement(driver, "text", "10/03/2020");
+		PO_View.checkElement(driver, "text", "Seguimos creando");
+		
+		
+	}
+	
+	
+	
 	// Desde el formulario de crear publicaciones, crear una publicación con datos
 	// válidos y una
 	// foto adjunta. Comprobar que en el listado de publicaciones aparecer la foto

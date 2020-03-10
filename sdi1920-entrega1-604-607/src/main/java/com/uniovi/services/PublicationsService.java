@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uniovi.entities.Publication;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.PublicationsRepository;
 
 @Service
@@ -36,5 +38,9 @@ public class PublicationsService {
 		byte[] bytes = photo.getBytes();		
 		Path path = Paths.get(uploadFolder + id);
 		Files.write(path,  bytes);
+	}
+
+	public List<Publication> getPublicationsOfUser(User name) {
+		return publicationsRepository.findAllByUser(name);
 	}
 }
