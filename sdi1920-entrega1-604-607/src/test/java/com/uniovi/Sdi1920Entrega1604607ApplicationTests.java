@@ -1,5 +1,7 @@
 package com.uniovi;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -287,6 +289,33 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 		// Comprobamos que ya no está
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Sonia", PO_View.getTimeout());
+	}
+	
+	
+	
+	//[Prueba19] Mostrar el listado de amigos de un usuario. Comprobar que el listado contiene los amigos que deben ser.
+	@Test
+	public void prueba19() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+		
+		
+		
+		//Navegamos hasta la opción de listar amigos de un usuario en sesión
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/friends/list')]");
+		elementos.get(0).click();
+		
+		//Comprobamos el número de amigos del usuario
+		Assert.assertEquals(2,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+
+		// Comprobamos que son los usuarios esperados
+		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
+		
+		
 	}
 
 	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar
