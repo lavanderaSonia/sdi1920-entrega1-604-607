@@ -1,28 +1,24 @@
 package com.uniovi;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_AddPublicationView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_ListUserBySearchText;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
-import com.uniovi.tests.pageobjects.PO_NavView;
-import com.uniovi.tests.pageobjects.PO_PrivateView;
-import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -61,17 +57,10 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	static public void begin() {
 	}
 
-	// Al finalizar la última prueba
-	@AfterClass
-	static public void end() {
-		driver.quit();
-	}
-
 	// [Prueba1] Registro de Usuario con datos válidos
 	@Test
 	public void prueba01() {
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
-		elementos.get(0).click();
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "123456");
 		// Comprobamos que entramos en la sección privada
@@ -83,44 +72,41 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// apellidos vacíos).
 	@Test
 	public void prueba02() {
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
-		elementos.get(0).click();
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "", "Sonia", "Garcia", "123456", "123456");
 		// Comprobamos que entramos en la sección privada
-		PO_RegisterView.checkKey(driver, "Error.signup.empty", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "sonia1@gmail.com", "", "Garcia", "123456", "123456");
 		// Comprobamos que entramos en la sección privada
-		PO_RegisterView.checkKey(driver, "Error.signup.empty", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "sonia2@gmail.com", "Sonia", "", "123456", "123456");
 		// Comprobamos que entramos en la sección privada
-		PO_RegisterView.checkKey(driver, "Error.signup.empty", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 	}
 
 	// [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña
 	// inválida).
 	@Test
 	public void prueba03() {
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
-		elementos.get(0).click();
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "sonia3@gmail.com", "Sonia", "Garcia", "123456", "12345");
 		// Comprobamos que entramos en la sección privada
 		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
 	}
-	
-	//[Prueba4] Registro de Usuario con datos inválidos (email existente).
+
+	// [Prueba4] Registro de Usuario con datos inválidos (email existente).
 	@Test
 	public void prueba04() {
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
-		elementos.get(0).click();
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "12345");
 		// Comprobamos que entramos en la sección privada
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
-	
+
 	}
 
 	// Inicio de sesión con datos válidos (administrador).
@@ -184,6 +170,90 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Desconectar", PO_View.getTimeout());
 	}
 
+	// [Prueba11] Mostrar el listado de usuarios y comprobar que se muestran todos
+	// los que existen en el sistema.
+	@Test
+	public void prueba11() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+
+		// el login ya me lleva a la lista de usuarios-> comprobamos que son 3 en total
+		// (hay 2 del InsertDataService y 1+ por las pruebas)
+		Assert.assertEquals(3,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+
+		// Comprobamos que son los usuarios esperados
+		PO_NavView.checkElement(driver, "text", "Thalía");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
+		PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+
+	}
+
+	// [Prueba12] Hacer una búsqueda con el campo vacío y comprobar que se muestra
+	// la página que corresponde con el
+	// listado usuarios existentes en el sistema.
+
+	public void prueba12() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+
+		// Relleno el campo con un String vacío
+		PO_ListUserBySearchText.fillSearchText(driver, "");
+
+		// Me salen todos los usuarios del sistema
+			// el login ya me lleva a la lista de usuarios-> comprobamos que son 3 en total
+			// (hay 2 del InsertDataService y 1+ por las pruebas)
+			Assert.assertEquals(3,
+					SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+
+			// Comprobamos que son los usuarios esperados
+			PO_NavView.checkElement(driver, "text", "Thalía");
+			PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
+			PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+
+	}
+	
+	//[Prueba13] Hacer una búsqueda escribiendo en el campo un texto que no exista y 
+	//comprobar que se muestra la página que corresponde, con la lista de usuarios vacía.
+	
+	@Test
+	public void prueba13() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+
+		// Relleno el campo con un String que no coincida con nada 
+		PO_ListUserBySearchText.fillSearchText(driver, "pruebas");
+
+		// Comprobamos que son los usuarios esperados o sea no coincide con ninguno de los del sistema 
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
+
+
+
+	}
+
+	
+	//[Prueba14] Hacer una búsqueda con un texto específico y comprobar que se muestra la página que corresponde, 
+	//con la lista de usuarios en los que el texto especificados sea parte de su nombre, apellidos o de su email.
+	
+	@Test
+	public void prueba14() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+
+		// Relleno el campo con un String que no coincida con nada 
+		PO_ListUserBySearchText.fillSearchText(driver, "tha");
+
+		// Comprobamos que son los usuarios esperados 
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "thalia@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver,"sonia@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver,"usuario@email.com", PO_View.getTimeout());
+
+	
+
+
+	}
+	
 	// Mostrar el listado de invitaciones de amistad recibidas. Comprobar con un
 	// listado que
 	// contenga varias invitaciones recibidas

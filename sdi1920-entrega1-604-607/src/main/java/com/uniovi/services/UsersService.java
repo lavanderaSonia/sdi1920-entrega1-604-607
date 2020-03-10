@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,15 @@ public class UsersService {
 		return users;
 	}
 	
+	public Page<User> getUsers(String usuario, Pageable pageable) {
+		return usersRepository.findAllUsers(usuario, pageable);
+	}
+	
+	public Page<User> searchByNameLastNameAndEmail(Pageable pageable, String searchText){
+		searchText = "%"+searchText+"%";
+		return usersRepository.searchByNameLastNameAndEmail(pageable, searchText);
+	}
+	
 	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		usersRepository.save(user);
@@ -43,6 +54,10 @@ public class UsersService {
 	}
 	public User getUserByEmail(String email) {
 		return usersRepository.findByEmail(email);
+	}
+
+	public Page<User> getFriends(String name, Pageable pageable) {
+		return usersRepository.findAllFriends(pageable, name);
 	}
 	
 }

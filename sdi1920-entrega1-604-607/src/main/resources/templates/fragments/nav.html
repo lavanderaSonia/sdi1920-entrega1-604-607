@@ -22,6 +22,22 @@
 						<li><a href="/publication/add" th:text="#{publication.menu.add}">Nueva publicacion</a></li>
 					</ul>
 				</li>
+				<li class="dropdown" sec:authorize="isAuthenticated()"><a id="users-menu" href="#"
+					class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false" th:text="#{users.menu}">
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/user/list" th:text="#{user.menu.list}">Ver usuarios</a></li>
+					</ul>
+				</li>
+				<li class="dropdown" sec:authorize="isAuthenticated()"><a id="usuarios-menu" href="#"
+					class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false" th:text="#{friends.menu}">
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li ><a href="/user/friends/list" th:text="#{friend.menu.list}">Ver amigos</a></li>
+					</ul>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a id="btnLanguage" href="#"
@@ -38,16 +54,16 @@
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.es}">Español</span>
+								th:text="#{language.es}">Espaï¿½ol</span>
 						</a></li>
 					</ul></li>
 
 				<li><a href="/signup"
-					th:text="#{signup.message}">> <span
+					th:text="#{signup.message}"> <span
 						class="glyphicon glyphicon-user"></span> Registrate
 				</a></li>
 				<li sec:authorize="!isAuthenticated()"><a href="/login"
-					th:text="#{login.message}">> <span
+					th:text="#{login.message}"> <span
 						class="glyphicon glyphicon-log-in"></span> Identificate
 				</a></li>
 				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
