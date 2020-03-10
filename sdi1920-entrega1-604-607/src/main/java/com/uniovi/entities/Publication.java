@@ -1,5 +1,6 @@
 package com.uniovi.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -73,6 +74,12 @@ public class Publication {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String dateToString() {
+		String strDateFormat = "dd/MM/yyyy"; // El formato de fecha está especificado  
+        SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat); // La cadena de formato de fecha se pasa como un argumento al objeto 
+        return objSDF.format(getPublicationDate());
 	}
 
 }
