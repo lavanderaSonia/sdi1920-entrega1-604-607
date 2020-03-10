@@ -20,4 +20,6 @@ public class PO_AddPublicationView {
 		driver.findElement(boton).click();
 	}
 	
+	static public void addPhoto(WebDriver driver, String url) {}
+	
 }

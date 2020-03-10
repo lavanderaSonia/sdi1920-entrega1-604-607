@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "publication")
@@ -23,23 +23,9 @@ public class Publication {
 
 	@ManyToOne
 	private User user;
-	
-	public String getPhoto() {
-		return photo;
-	}
-
-
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-
-	private String photo;
 
 	public Publication() {
 	}
-	
-	
 
 	public Publication(Date publicationDate, String title, String text, User user) {
 		super();
@@ -48,8 +34,6 @@ public class Publication {
 		this.text = text;
 		this.user = user;
 	}
-
-
 
 	public Long getId() {
 		return id;
