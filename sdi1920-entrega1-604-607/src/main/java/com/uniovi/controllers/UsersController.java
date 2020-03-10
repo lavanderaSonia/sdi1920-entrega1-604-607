@@ -1,6 +1,11 @@
 package com.uniovi.controllers;
 
+import java.util.LinkedList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.RolesService;
@@ -57,6 +63,39 @@ public class UsersController {
 		return "redirect:home";
 	}
 
+	
+	@RequestMapping("/user/list")
+	public String getListado(Model model, Pageable pageable,@RequestParam(value="", required=false) String searchText) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		if(searchText!=null && !searchText.isEmpty())
+			users = usersService.searchByNameLastNameAndEmail(pageable, searchText);
+		else {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String email = auth.getName();
+			User userActive = usersService.getUserByEmail(email);
+			users=usersService.getUsers(userActive.getName(), pageable);
+		}
+		model.addAttribute("usersList", users.getContent()); 
+		model.addAttribute("page", users);
+		return "user/list";
+	}
+	
+	
+	@RequestMapping("/user/friends/list")
+	public String getListadoAmigos(Model model, Pageable pageable) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User userActive = usersService.getUserByEmail(email);
+		users=usersService.getFriends(userActive.getName(), pageable);
+		
+		
+		model.addAttribute("friendsList", users.getContent()); 
+		model.addAttribute("page", users);
+		return "friends/list";
+	}
+	
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

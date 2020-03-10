@@ -28,9 +28,7 @@ public class SignUpFormValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Error.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "Error.empty");
 
-		if (user.getEmail().length() < 5 || user.getEmail().length() > 24) {
-			errors.rejectValue("email", "Error.signup.email.length");
-		}
+		
 		if (usersService.getUserByEmail(user.getEmail())!=null) {
 			errors.rejectValue("email", "Error.signup.email.duplicate");
 		}

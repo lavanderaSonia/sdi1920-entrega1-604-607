@@ -12,4 +12,4 @@ public class PO_PrivateView extends PO_NavView {
 		return checkElement(driver, "id", "invitation");
 	}
 	
-}
+	}

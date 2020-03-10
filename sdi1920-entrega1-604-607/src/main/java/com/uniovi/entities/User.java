@@ -64,6 +64,17 @@ public class User {
 		this.passwordConfirm = passwordConfirm;
 		this.role = role;
 	}
+	
+	public User(String email, String name, String lastName, String password, String passwordConfirm, String role, Set<User> friends) {
+		super();
+		this.email = email;
+		this.name = name;
+		this.lastName = lastName;
+		this.password = password;
+		this.passwordConfirm = passwordConfirm;
+		this.role = role;
+		this.friends=friends;
+	}
 
 
 
