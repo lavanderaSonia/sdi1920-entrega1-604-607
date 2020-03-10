@@ -33,7 +33,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\thali_12wmf8x\\Documents\\Clase\\SDI\\Practica-Spring\\geckodriver024win64.exe";
 
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
@@ -111,8 +111,8 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobamos que entramos en la sección privada
 		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
 	}
-	
-	//[Prueba4] Registro de Usuario con datos inválidos (email existente).
+
+	// [Prueba4] Registro de Usuario con datos inválidos (email existente).
 	@Test
 	public void prueba04() {
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'Regístrate')]/a");
@@ -121,7 +121,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "12345");
 		// Comprobamos que entramos en la sección privada
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
-	
+
 	}
 
 	// Inicio de sesión con datos válidos (administrador).
@@ -244,7 +244,42 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// pulsar el botón Submit. Comprobar que se muestra el mensaje de campo
 	// obligatorio.
 	@Test
-	public void prueba25() {		
+	public void prueba25() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
+
+		PO_AddPublicationView.fillForm(driver, " ", " ");
+
+		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
+	}
+
+	// Desde el formulario de crear publicaciones, crear una publicación con datos
+	// válidos y una
+	// foto adjunta. Comprobar que en el listado de publicaciones aparecer la foto
+	// adjunta junto al resto de
+	// datos de la publicación
+	@Test
+	public void prueba29() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
+
+		PO_AddPublicationView.fillForm(driver, "Prueba", "Esto es una prueba automática.", "C:\\logo.png");
+
+		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
+
+		// TODO: comprobar que aparece en el listado de publicaciones
+	}
+
+	// Crear una publicación con datos válidos y sin una foto adjunta. Comprobar que la
+	// publicación se a creado con éxito, ya que la foto no es obligatoria.
+	@Test
+	public void prueba30() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
 
@@ -253,8 +288,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
-		PO_AddPublicationView.fillForm(driver, " ", " ");
+		PO_AddPublicationView.fillForm(driver, "Prueba24", "Esto es una prueba");
 
-		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
+		// TODO: comprobar que estamos en la vista de listar mis publicaciones
+		// TODO: comprobar que aparece la nueva publicacion
 	}
 }

@@ -20,6 +20,10 @@ public class PO_AddPublicationView {
 		driver.findElement(boton).click();
 	}
 	
-	static public void addPhoto(WebDriver driver, String url) {}
+	static public void fillForm(WebDriver driver, String titlep, String textp, String url) {
+		WebElement photo = driver.findElement(By.id("photo-input"));
+		photo.sendKeys(url);
+		fillForm(driver, titlep, textp);
+	}
 	
 }
