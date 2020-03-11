@@ -72,7 +72,7 @@ public class PublicationsController {
 				return "error";
 			}
 		// TODO: redireccionar a listar mis publicaciones
-		return "redirect:publication/list";
+		return "redirect:/publication/list";
 	}
 	
 }
