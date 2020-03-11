@@ -367,10 +367,14 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
-		PO_AddPublicationView.fillForm(driver, "Prueba24", "Esto es una prueba");
+		PO_AddPublicationView.fillForm(driver, "Prueba 24", "Esto es una prueba");
 
-		// TODO: comprobar que estamos en la vista de listar mis publicaciones
-		// TODO: comprobar que aparece la nueva publicacion
+		// Comprobamos que estamos en la vista de listar mis publicaciones
+		PO_NavView.checkElement(driver, "text", "Tus publicaciones son las siguientes:");
+		
+		// Comprobamos que aparece la nueva publicacion
+		PO_NavView.checkElement(driver, "text", "Prueba 24");
+		PO_NavView.checkElement(driver, "text", "Esto es una prueba");
 	}
 
 	// Ir al formulario de crear publicaciones, rellenarla con datos inválidos
@@ -431,7 +435,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
-		PO_AddPublicationView.fillForm(driver, "Prueba", "Esto es una prueba automática.", "C:\\logo.png");
+		PO_AddPublicationView.fillForm(driver, "Prueba 29", "Esto es una prueba automática de crear una publicación con foto.", "C:\\logo.png");
 
 		// TODO: comprobar que aparece en el listado de publicaciones
 	}
@@ -449,9 +453,13 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
-		PO_AddPublicationView.fillForm(driver, "Prueba24", "Esto es una prueba");
+		PO_AddPublicationView.fillForm(driver, "Prueba 30", "Esto es una prueba de publicación sin foto.");
 
-		// TODO: comprobar que estamos en la vista de listar mis publicaciones
-		// TODO: comprobar que aparece la nueva publicacion
+		// Comprobamos que estamos en la vista de listar mis publicaciones
+		PO_NavView.checkElement(driver, "text", "Tus publicaciones son las siguientes:");
+		
+		// Comprobamos que aparece la nueva publicacion
+		PO_NavView.checkElement(driver, "text", "Prueba 30");
+		PO_NavView.checkElement(driver, "text", "Esto es una prueba de publicación sin foto");
 	}
 }
