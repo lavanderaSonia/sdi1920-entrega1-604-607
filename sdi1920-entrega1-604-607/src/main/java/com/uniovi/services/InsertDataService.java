@@ -52,10 +52,10 @@ public class InsertDataService {
 		publicationService.addPublication(p);
 		Publication p1= new Publication(new Date(), "Seguimos creando", "Prueba para las publicaciones", sonia);
 		publicationService.addPublication(p1);
-
-		invitationsService.addInvitation(new Invitation(admin, thalia, false));
-		invitationsService.addInvitation(new Invitation(user, thalia, false));
 		
+		thalia.getFriends().add(sonia);
+		user.getFriends().add(sonia);
 		
+		invitationsService.addInvitation(new Invitation(admin, thalia));
 	}
 }

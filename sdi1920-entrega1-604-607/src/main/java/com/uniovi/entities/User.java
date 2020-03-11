@@ -1,5 +1,6 @@
 package com.uniovi.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,7 +36,7 @@ public class User {
 	private Set<Invitation> invitations;
 	
 	@ManyToMany()
-	private Set<User> friends;
+	private Set<User> friends = new HashSet<User>();
 	
 	
 	

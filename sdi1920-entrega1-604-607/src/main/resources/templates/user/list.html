@@ -21,12 +21,26 @@
 					<tr>
 						<th th:text="#{email}">Email</th>
 						<th th:text="#{name}">Nombre</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="user : ${usersList}">
 						<td th:text="${user.email}">ejemplo@ejemplo.com</td>
 						<td th:text="${user.name}">Nombre del usuario</td>
+						<td th:if="${invitedUsers.contains(user)}" th:text="#{invitation.sent}"
+							class="text-success" th:id="${'sent/' + user.name}"> Invitacion enviada </td>
+						
+						<td th:if="${otherUsers.contains(user)}" th:text="#{invitation.received}"
+							class="bg-info" th:id="${'sent/' + user.name}"> Te ha invitado </td>
+						
+						<td th:if="${friends.contains(user)}" th:text="#{invitation.friends}"
+							class="text-secondary" th:id="${'friends/' + user.name}"> Amigos </td>
+						
+						<td th:if="${!invitedUsers.contains(user) && !friends.contains(user) && !otherUsers.contains(user)}"> 
+						<a th:text="#{invitation.send}" class="text-primary" 
+							th:href="${'/invitation/send/' + user.id}"
+							th:id="${'send/' + user.name}"> Enviar </a></td>
 					</tr>
 				</tbody>
 			</table>
