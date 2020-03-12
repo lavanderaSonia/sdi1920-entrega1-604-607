@@ -33,7 +33,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens//
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\geckodriver024win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
 
@@ -395,6 +395,30 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
 				PO_Properties.getENGLISH(), "publication.menu");
 	}
+	
+	// Intentar acceder sin estar autenticado a la opción de listado de usuarios. Se deberá volver al
+	// formulario de login
+	@Test
+	public void prueba21() {
+		// Al principio no estamos logueados, asique intentamos acceder directamente
+		driver.navigate().to(URL + "/user/list");
+		// Comprobamos que no nos ha dejado acceder
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Usuarios", PO_View.getTimeout());
+		// Comprobamos que nos ha redireccionado al formulario de login
+		PO_NavView.checkElement(driver, "text", "Identifícate");
+	}
+	
+	// Intentar acceder sin estar autenticado a la opción de listado de publicaciones de un usuario
+	// estándar. Se deberá volver al formulario de login.
+	@Test
+	public void prueba22() {
+		// Al principio no estamos logueados, asique intentamos acceder directamente
+		driver.navigate().to(URL + "/publication/list/3");
+		// Comprobamos que no nos ha dejado acceder
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Texto", PO_View.getTimeout());
+		// Comprobamos que nos ha redireccionado al formulario de login
+		PO_NavView.checkElement(driver, "text", "Identifícate");
+	}
 
 	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar
 	// el botón Submit.
@@ -415,7 +439,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 		// Comprobamos que aparece la nueva publicacion
 		PO_NavView.checkElement(driver, "text", "Prueba 24");
-		PO_NavView.checkElement(driver, "text", "Esto es una prueba");
 	}
 
 	// Ir al formulario de crear publicaciones, rellenarla con datos inválidos
@@ -548,7 +571,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 		// Comprobamos que aparece la nueva publicacion
 		PO_NavView.checkElement(driver, "text", "Prueba 30");
-		PO_NavView.checkElement(driver, "text", "Esto es una prueba de publicación sin foto");
 	}
 	
 	
