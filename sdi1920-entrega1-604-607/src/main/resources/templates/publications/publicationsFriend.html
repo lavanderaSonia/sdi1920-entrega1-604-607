@@ -8,7 +8,7 @@
 		<h2 th:text="#{publication}"></h2>
 		<p th:text="#{publicationsOfUser}"></p>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tablePublications"
+			<table class="table table-image" th:fragment="tablePublications"
 				id="tablePublications">
 				<thead>
 					<tr>
@@ -22,6 +22,8 @@
 						<td th:text="${publication.dateToString()}">12/12/2020</td>
 						<td th:text="${publication.title}">Titulo de la publicacion</td>
 						<td th:text="${publication.text}">Texto de la publicacion</td>
+						<td th:id="${'photo-' + publication.title}" th:if="${publication.havePhoto}"><img class="img-fluid img-thumbnail" width="150px" alt="Imagen de la publicación"
+							th:src="${'/files/' + publication.id}"></td>
 					</tr>
 				</tbody>
 			</table>

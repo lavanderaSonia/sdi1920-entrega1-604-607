@@ -21,4 +21,8 @@ footer {
   line-height:60px
 }
 
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 /* Sticky footer styles-------------------------------------------------- */

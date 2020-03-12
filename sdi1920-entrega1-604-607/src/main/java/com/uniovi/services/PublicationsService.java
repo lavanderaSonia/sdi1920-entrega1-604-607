@@ -34,9 +34,12 @@ public class PublicationsService {
 		publicationsRepository.deleteById(id);
 	}
 
-	public void savePhoto(MultipartFile photo, Long id) throws IOException {
+	public void savePhoto(MultipartFile photo, Publication publication) throws IOException {
+		publication.setHavePhoto(true);
+		this.addPublication(publication);
+		
 		byte[] bytes = photo.getBytes();		
-		Path path = Paths.get(uploadFolder + id);
+		Path path = Paths.get(uploadFolder + publication.getId());
 		Files.write(path,  bytes);
 	}
 

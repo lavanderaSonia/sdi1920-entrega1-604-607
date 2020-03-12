@@ -33,7 +33,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens//
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\thali_12wmf8x\\Documents\\Clase\\SDI\\Practica-Spring\\geckodriver024win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
 
@@ -510,7 +510,22 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_AddPublicationView.fillForm(driver, "Prueba 29",
 				"Esto es una prueba automática de crear una publicación con foto.", "C:\\logo.png");
 
-		// TODO: comprobar que aparece en el listado de publicaciones
+		// Cambiamos a la cuenta de un amigo
+		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+		
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/friends/list')]");
+		elementos.get(0).click();
+
+		PO_HomeView.checkElement(driver, "free", "//*[@id=\"friend\"]").get(0).click();
+		
+		// Comprobamos que sale la publicación que acabamos de hacer
+		PO_NavView.checkElement(driver, "text", "Prueba 29");
+		PO_NavView.checkElement(driver, "text", "Esto es una prueba automática de crear una publicación con foto.");
+		PO_NavView.checkElement(driver, "id", "photo-Prueba 29");
 	}
 
 	// Crear una publicación con datos válidos y sin una foto adjunta. Comprobar que

@@ -21,7 +21,8 @@ public class Publication {
 
 	private String title;
 	private String text;
-
+	private boolean havePhoto;
+	
 	@ManyToOne
 	private User user;
 
@@ -82,4 +83,12 @@ public class Publication {
         return objSDF.format(getPublicationDate());
 	}
 
+	
+	public boolean getHavePhoto() {
+		return havePhoto;
+	}
+	
+	public void setHavePhoto(boolean photo) {
+		this.havePhoto = photo;
+	}
 }

@@ -79,16 +79,16 @@ public class PublicationsController {
 		publication.setPublicationDate(new Date());
 		publication.setUser(user);
 
-		publicationsService.addPublication(publication);
-
 		if (photo != null)
 			try {
-				publicationsService.savePhoto(photo, publication.getId());
+				publicationsService.savePhoto(photo, publication);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return "error";
 			}
-		// TODO: redireccionar a listar mis publicaciones
+		else
+			publicationsService.addPublication(publication);
+		// Redireccionar a listar mis publicaciones
 		return "redirect:/publication/list";
 	}
 
