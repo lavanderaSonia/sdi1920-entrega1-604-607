@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Configuration
@@ -39,18 +40,23 @@ public class WebSecurityConfi extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
 					.antMatchers("/css/**", "/img/**", "/script/**", "/", "/signup", "/login/**").permitAll()
-					.antMatchers("/invitation/**").authenticated()
 					.anyRequest()
 					.authenticated()
 				.and()
 					.formLogin()
 					.loginPage("/login").permitAll()
-					.defaultSuccessUrl("/user/list")
+					.successHandler(successHandler())
 				.and()
 					.logout()
 					.permitAll();
 	}
 
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+		AuthenticationSuccessHandler handler = new CustomAuthenticationSuccessHandler();
+	    return handler;
+	}
+	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
