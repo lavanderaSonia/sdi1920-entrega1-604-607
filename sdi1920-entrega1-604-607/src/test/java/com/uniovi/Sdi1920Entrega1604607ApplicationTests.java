@@ -135,7 +135,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	public void prueba06() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "usuario@email.com", "usuario");
-		
+
 		// Comprobamos que estamos en la página de listar usuarios
 		PO_View.checkElement(driver, "text", "Usuarios");
 	}
@@ -263,17 +263,19 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
 
 	}
-	
-	// Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario.
-	// Comprobar que la solicitud de amistad aparece en el listado de invitaciones (punto siguiente).
+
+	// Desde el listado de usuarios de la aplicación, enviar una invitación de
+	// amistad a un usuario.
+	// Comprobar que la solicitud de amistad aparece en el listado de invitaciones
+	// (punto siguiente).
 	@Test
 	public void prueba15() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "usuario@email.com", "usuario");
-		
+
 		// Ya estamos en la lista de usuarios, asique mandamos una invitación
 		PO_View.checkElement(driver, "id", "send/Thalía").get(0).click();
-		
+
 		// Salimos para ir a la otra cuenta
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
@@ -281,14 +283,15 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_PrivateView.goToInvitations(driver);
 		PO_NavView.checkElement(driver, "text", "usuario usuario");
 	}
-	
-	// Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario al
+
+	// Desde el listado de usuarios de la aplicación, enviar una invitación de
+	// amistad a un usuario al
 	// que ya le habíamos enviado la invitación previamente.
 	@Test
 	public void prueba16() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "usuario@email.com", "usuario");
-		
+
 		// Comprobamos que hay un texto que indica que ya se
 		// ha enviado una invitación al usuario de la prueba 15.
 		// Por lo tanto, no hay enlace para enviarla
@@ -318,7 +321,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
 
-		driver.navigate().to(URL);
 		PO_PrivateView.goToInvitations(driver);
 		// Aceptamos la invitacion de Sonia
 		PO_NavView.checkElement(driver, "id", "accept/usuario").get(0).click();
@@ -347,7 +349,51 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobamos que son los usuarios esperados
 		PO_NavView.checkElement(driver, "text", "thalia@email.com");
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
+	}
 
+	// Visualizar al menos cuatro páginas en Español/Inglés/Español (comprobando que
+	// algunas
+	// de las etiquetas cambian al idioma correspondiente). Ejemplo, Página
+	// principal/Opciones Principales de
+	// Usuario/Listado de Usuarios.
+	@Test
+	public void prueba20() {
+		// Iniciamos sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
+
+		// Cambio de idioma en la página de listar usuarios
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "usersSystem");
+
+		// Cambio de idioma en la página de crear una publicación
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
+
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "publication.new");
+
+		// Cambio de idioma en la página de invitaciones de amistad
+		PO_PrivateView.goToInvitations(driver);
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "invitations.message");
+		
+		// Cambio de idioma en la página de mis publicaciones
+		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/publication/list").get(0).click();
+
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "publicationsOfUser");
+		
+		// Comprobamos también que cambian las opciones del menú
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "invitation.menu");
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "users.menu");
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "friends.menu");
+		PO_NavView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(),
+				PO_Properties.getENGLISH(), "publication.menu");
 	}
 
 	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar
@@ -359,8 +405,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "thalia@email.com", "pass");
 
-		driver.navigate().to(URL);
-
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
@@ -368,7 +412,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 		// Comprobamos que estamos en la vista de listar mis publicaciones
 		PO_NavView.checkElement(driver, "text", "Tus publicaciones son las siguientes:");
-		
+
 		// Comprobamos que aparece la nueva publicacion
 		PO_NavView.checkElement(driver, "text", "Prueba 24");
 		PO_NavView.checkElement(driver, "text", "Esto es una prueba");
@@ -410,7 +454,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_View.checkElement(driver, "text", "Creación de la aplicación");
 		PO_View.checkElement(driver, "text", "10/03/2020");
 		PO_View.checkElement(driver, "text", "Seguimos creando");
-
 	}
 
 	// [Prueba27] Mostrar el listado de publicaciones de un usuario amigo y
@@ -435,7 +478,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_View.checkElement(driver, "text", "12/03/2020");
 		PO_View.checkElement(driver, "text", "Thalía crea también la aplicación");
 		PO_View.checkElement(driver, "text", "Prueba para las publicaciones de amigos");
-
 	}
 	
 	
@@ -449,10 +491,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		
 		driver.navigate().to("http://localhost:8090/publication/list/4");
 		PO_View.checkElement(driver, "text", "Error de autorización");
-		PO_View.checkElement(driver, "text", "No puedes acceder a las publicaciones de este usuario, no forma parte de tu lista de amigos");
-
-		
-		
+		PO_View.checkElement(driver, "text", "No puedes acceder a las publicaciones de este usuario, no forma parte de tu lista de amigos");	
 	}
 
 	// Desde el formulario de crear publicaciones, crear una publicación con datos
@@ -468,14 +507,15 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/add").get(0).click();
 
-		PO_AddPublicationView.fillForm(driver, "Prueba 29", "Esto es una prueba automática de crear una publicación con foto.", "C:\\logo.png");
+		PO_AddPublicationView.fillForm(driver, "Prueba 29",
+				"Esto es una prueba automática de crear una publicación con foto.", "C:\\logo.png");
 
 		// TODO: comprobar que aparece en el listado de publicaciones
 	}
 
 	// Crear una publicación con datos válidos y sin una foto adjunta. Comprobar que
 	// la
-	// publicación se a creado con éxito, ya que la foto no es obligatoria.
+	// publicación se ha creado con éxito, ya que la foto no es obligatoria.
 	@Test
 	public void prueba30() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -490,7 +530,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 		// Comprobamos que estamos en la vista de listar mis publicaciones
 		PO_NavView.checkElement(driver, "text", "Tus publicaciones son las siguientes:");
-		
+
 		// Comprobamos que aparece la nueva publicacion
 		PO_NavView.checkElement(driver, "text", "Prueba 30");
 		PO_NavView.checkElement(driver, "text", "Esto es una prueba de publicación sin foto");
