@@ -59,5 +59,6 @@ public class UsersService {
 	public Page<User> getFriends(String name, Pageable pageable) {
 		return usersRepository.findAllFriends(pageable, name);
 	}
+
 	
 }

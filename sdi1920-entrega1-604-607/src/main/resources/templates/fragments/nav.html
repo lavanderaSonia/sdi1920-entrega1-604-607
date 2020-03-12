@@ -28,7 +28,8 @@
 					aria-haspopup="true" aria-expanded="false" th:text="#{users.menu}">
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/list" th:text="#{user.menu.list}">Ver usuarios</a></li>
+						<li sec:authorize="hasRole('ROLE_USER')"><a href="/user/list" th:text="#{user.menu.list}">Ver usuarios</a></li>
+						<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/user/list" th:text="#{user.menu.list}">Ver usuarios</a></li>
 					</ul>
 				</li>
 				<li id="friends-menu" class="dropdown" sec:authorize="isAuthenticated()"><a  href="#"
