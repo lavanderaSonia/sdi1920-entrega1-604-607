@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<nav th:replace="fragments/nav" />
+	<div class="container" style="text-align: center">
+		<h2 th:id="DenegacionAcceso" th:text="#{accessDenied}"></h2>
+		<h3 th:text="#{textMessageDenied}">Mensaje de error</h3>
+	</div>
+
+</body>
+<footer th:replace="fragments/footer" />
+</html>

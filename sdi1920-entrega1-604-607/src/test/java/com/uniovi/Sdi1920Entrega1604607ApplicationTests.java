@@ -30,7 +30,8 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
-	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens// automáticas)):
+	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens//
+	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
@@ -325,32 +326,28 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobamos que ya no está
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario usuario", PO_View.getTimeout());
 	}
-	
-	
-	
-	//[Prueba19] Mostrar el listado de amigos de un usuario. Comprobar que el listado contiene los amigos que deben ser.
+
+	// [Prueba19] Mostrar el listado de amigos de un usuario. Comprobar que el
+	// listado contiene los amigos que deben ser.
 	@Test
 	public void prueba19() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
-		
-		
-		
-		//Navegamos hasta la opción de listar amigos de un usuario en sesión
+
+		// Navegamos hasta la opción de listar amigos de un usuario en sesión
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
 		elementos.get(0).click();
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/friends/list')]");
 		elementos.get(0).click();
-		
-		//Comprobamos el número de amigos del usuario
+
+		// Comprobamos el número de amigos del usuario
 		Assert.assertEquals(2,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
 		// Comprobamos que son los usuarios esperados
 		PO_NavView.checkElement(driver, "text", "thalia@email.com");
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
-		
-		
+
 	}
 
 	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar
@@ -394,34 +391,70 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkKey(driver, "Error.publication.title", PO_Properties.getSPANISH());
 	}
 
-	
-	
-	//[Prueba26] Mostrar el listado de publicaciones de un usuario y comprobar que se muestran todas las que existen para dicho usuario.
-	
+	// [Prueba26] Mostrar el listado de publicaciones de un usuario y comprobar que
+	// se muestran todas las que existen para dicho usuario.
+
 	@Test
 	public void Prueba26() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
-		
-		
-		
-		//Navegamos hasta la opción de listar publicaciones de un usuario en sesión
+
+		// Navegamos hasta la opción de listar publicaciones de un usuario en sesión
 		PO_HomeView.checkElement(driver, "id", "publications-menu").get(0).click();
 		PO_HomeView.checkElement(driver, "@href", "/publication/list").get(0).click();
-		
+
 		Assert.assertEquals(2,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
-		
+
 		PO_View.checkElement(driver, "text", "10/03/2020");
 		PO_View.checkElement(driver, "text", "Creación de la aplicación");
 		PO_View.checkElement(driver, "text", "10/03/2020");
 		PO_View.checkElement(driver, "text", "Seguimos creando");
+
+	}
+
+	// [Prueba27] Mostrar el listado de publicaciones de un usuario amigo y
+	// comprobar que se muestran todas las que existen para dicho usuario.
+	@Test
+	public void Prueba27() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+
+		// Navegamos hasta la opción de listar amigos de un usuario en sesión
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
+		elementos.get(0).click();
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/friends/list')]");
+		elementos.get(0).click();
+
+		PO_HomeView.checkElement(driver, "free", "//*[@id=\"friend\"]").get(0).click();
 		
 		
+		Assert.assertEquals(1,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+
+		PO_View.checkElement(driver, "text", "12/03/2020");
+		PO_View.checkElement(driver, "text", "Thalía crea también la aplicación");
+		PO_View.checkElement(driver, "text", "Prueba para las publicaciones de amigos");
+
 	}
 	
 	
-	
+	//[Prueba28] Utilizando un acceso vía URL u otra alternativa, tratar de listar las publicaciones de un usuario
+	//que no sea amigo del usuario identificado en sesión. 
+	//Comprobar que el sistema da un error de autorización.
+	@Test
+	public void prueba28() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+		
+		driver.navigate().to("http://localhost:8090/publication/list/4");
+		PO_View.checkElement(driver, "text", "Error de autorización");
+		PO_View.checkElement(driver, "text", "No puedes acceder a las publicaciones de este usuario, no forma parte de tu lista de amigos");
+
+		
+		
+	}
+
 	// Desde el formulario de crear publicaciones, crear una publicación con datos
 	// válidos y una
 	// foto adjunta. Comprobar que en el listado de publicaciones aparecer la foto

@@ -53,6 +53,8 @@ public class InsertDataService {
 		Publication p1= new Publication(new Date(), "Seguimos creando", "Prueba para las publicaciones", sonia);
 		publicationService.addPublication(p1);
 		
+		Publication p2= new Publication(new Date(), "Thalía crea también la aplicación", "Prueba para las publicaciones de amigos", thalia);
+		publicationService.addPublication(p2);
 		thalia.getFriends().add(sonia);
 		user.getFriends().add(sonia);
 		

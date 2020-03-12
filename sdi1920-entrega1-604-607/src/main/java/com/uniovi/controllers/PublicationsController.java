@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,19 +27,19 @@ public class PublicationsController {
 
 	@Autowired
 	private PublicationsService publicationsService;
-	
+
 	@Autowired
 	private UsersService usersService;
-	
+
 	@Autowired
 	private AddPublicationFormValidator validator;
-	
+
 	@RequestMapping("publication/add")
 	public String getAddPublication(Model model) {
 		model.addAttribute("publication", new Publication());
 		return "publications/add";
 	}
-	
+
 	@RequestMapping("publication/list")
 	public String getListPublication(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -47,24 +48,40 @@ public class PublicationsController {
 		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(usuarioSesion));
 		return "publications/list";
 	}
-	
+
+	@RequestMapping("publication/list/{id}")
+	public String getListPublicationsOfFriend(Model model, @PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User usuarioSesion = usersService.findByEmail(auth.getName());
+		//Este es el amigo
+		User amigo = usersService.getUser(id);
+		if(usuarioSesion.getFriends().contains(amigo)) {
+		model.addAttribute("publication", new Publication());
+		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(amigo));
+		return "publications/publicationsFriend";
+
+		}
+		else
+			return "error";
+	}
+
 	@RequestMapping(value = "publication/add", method = RequestMethod.POST)
 	public String addPublication(Model model, @Validated Publication publication, BindingResult result,
-				@RequestParam(required=false, value="photo") MultipartFile photo) {
-		
+			@RequestParam(required = false, value = "photo") MultipartFile photo) {
+
 		validator.validate(publication, result);
-		if(result.hasErrors())
+		if (result.hasErrors())
 			return "publications/add";
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersService.findByEmail(auth.getName());
-		
+
 		publication.setPublicationDate(new Date());
 		publication.setUser(user);
-		
+
 		publicationsService.addPublication(publication);
-		
-		if(photo != null)
+
+		if (photo != null)
 			try {
 				publicationsService.savePhoto(photo, publication.getId());
 			} catch (IOException e) {
@@ -74,5 +91,5 @@ public class PublicationsController {
 		// TODO: redireccionar a listar mis publicaciones
 		return "redirect:/publication/list";
 	}
-	
+
 }
