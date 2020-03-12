@@ -495,4 +495,29 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkElement(driver, "text", "Prueba 30");
 		PO_NavView.checkElement(driver, "text", "Esto es una prueba de publicación sin foto");
 	}
+	
+	
+	//[Prueba31] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el sistema.
+	@Test
+	public void Prueba31() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+
+		
+		PO_HomeView.checkElement(driver, "id", "users-menu").get(0).click();
+		PO_HomeView.checkElement(driver, "@href", "/admin/user/list").get(0).click();
+		
+		
+		// el login ya me lleva a la lista de usuarios-> comprobamos que son 3 en total
+		// (hay 2 del InsertDataService y 1+ por las pruebas)
+		Assert.assertEquals(4,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+
+		// Comprobamos que son los usuarios esperados
+		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+
+	}
 }
