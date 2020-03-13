@@ -7,14 +7,16 @@
 	<div class="container">
 		<h2 th:text="#{users}"></h2>
 		<p th:text="#{usersSystem}"></p>
-		<div class="table-responsive">
+		<form class="form-horizontal" method="post"
+			action="/admin/user/delete" th:object="${user}">
 			<table class="table table-hover" th:fragment="tableUsers"
 				id="tableUsers">
 				<thead>
 					<tr>
 						<th th:text="#{email}">Email</th>
 						<th th:text="#{name}">Nombre</th>
-						<th th:text="#{lastName}">Apellidos</th></th>
+						<th th:text="#{lastName}">Apellidos</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -22,10 +24,19 @@
 						<td th:text="${user.email}">ejemplo@ejemplo.com</td>
 						<td th:text="${user.name}">Nombre del usuario</td>
 						<td th:text="${user.lastName}">Apellidos del usuario</td>
+						<td><input type="checkbox" class="form-check-input"
+							id="selected" name="selected" th:checked="${user.selected}" th:value="${user.id}"></td>
 					</tr>
 				</tbody>
 			</table>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary" th:text="#{delete}"></button>
 		</div>
+	</div>
+	</form>
+
 	</div>
 </body>
 <footer th:replace="fragments/footer" />
