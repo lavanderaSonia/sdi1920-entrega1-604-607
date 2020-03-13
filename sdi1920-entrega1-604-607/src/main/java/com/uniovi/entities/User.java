@@ -29,13 +29,26 @@ public class User {
 	private String passwordConfirm;
 	private String role;
 	
+	@Transient
+	private boolean selected;
+	
+	public boolean isSelected() {
+		return selected;
+	}
+
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+
 	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
 	private Set<Publication> publications;
 	
 	@OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
 	private Set<Invitation> invitations;
 	
-	@ManyToMany()
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> friends = new HashSet<User>();
 	
 	
@@ -64,6 +77,7 @@ public class User {
 		this.password = password;
 		this.passwordConfirm = passwordConfirm;
 		this.role = role;
+		this.selected=false;
 	}
 	
 	public User(String email, String name, String lastName, String password, String passwordConfirm, String role, Set<User> friends) {

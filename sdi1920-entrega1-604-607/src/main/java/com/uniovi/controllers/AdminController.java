@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.UsersService;
@@ -26,6 +28,18 @@ public class AdminController {
 		List<User> users = usersService.getUsers();
 		if(users.remove(userActive))
 			model.addAttribute("usersList", users);
+		model.addAttribute("user", new User());
 		return "user/listByAdmin";
+	}
+	
+	@RequestMapping(value="/admin/user/delete", method = RequestMethod.POST)
+	public String deleteUsers(@RequestParam("selected") List<Long> users) {
+		if(users!=null)
+			for(Long u: users) {
+				System.out.print("Eliminando");
+				usersService.deleteUser(u);
+
+			}
+		return "redirect:/admin/user/list";
 	}
 }
