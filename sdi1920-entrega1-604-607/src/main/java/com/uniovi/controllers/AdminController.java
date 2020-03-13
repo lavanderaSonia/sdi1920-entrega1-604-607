@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,12 +36,20 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/user/delete", method = RequestMethod.POST)
 	public String deleteUsers(@RequestParam("selected") List<Long> users) {
-		if(users!=null)
-			for(Long u: users) {
-				System.out.print("Eliminando");
-				usersService.deleteUser(u);
-
+		Set<User> usuarios = new HashSet<User>();
+		for(Long u: users) {
+			usuarios.add(usersService.getUser(u));
+		}
+		
+		for(User u: usuarios) {
+			Set<User> friendsOfU= u.getFriends(); 
+			for(User friend: friendsOfU) {  
+				friend.getFriends().remove(u); 
+				friendsOfU.remove(friend);
 			}
+		}
+		for(User u: usuarios)
+			usersService.deleteUser(u.getId());
 		return "redirect:/admin/user/list";
 	}
 }

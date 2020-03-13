@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -33,7 +34,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens//
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\Usuario\\Downloads\\geckodriver024win64.exe";
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
 
@@ -595,6 +596,91 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
 		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
 		PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+
+	}
+	
+	//[Prueba32] Ir a la lista de usuarios, borrar el primer usuario de la lista, 
+	//comprobar que la lista se actualiza y dicho usuario desaparece.
+	@Test
+	public void Prueba32() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		
+		//Comprobamos que hay estos 3 antes 
+		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com");
+		
+		//seleccionamos el primer checkbox
+		PO_HomeView.checkElement(driver, "id", "selected").get(0).click();
+		
+		//pulsamos el boton delete 
+		driver.findElement(By.id("delete")).click();
+		
+		//comprobamos que hay dos menos 
+		Assert.assertEquals(2,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+		
+		//comprobamos quienes son 
+		PO_NavView.checkElement(driver, "text", "sonia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
+	}
+	
+	//[Prueba33] Ir a la lista de usuarios, borrar el último usuario de la lista, 
+	//comprobar que la lista se actualiza y dicho usuario desaparece.
+	@Test
+	public void Prueba33() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		
+		//Comprobamos que hay estos 3 antes 
+		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com");
+		
+		//seleccionamos el primer checkbox
+		PO_HomeView.checkElement(driver, "id", "selected").get(2).click();
+		
+		//pulsamos el boton delete 
+		driver.findElement(By.id("delete")).click();
+		
+		//comprobamos que hay dos menos 
+		Assert.assertEquals(2,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
+		
+		//comprobamos quienes son 
+		PO_NavView.checkElement(driver, "text", "sonia@email.com");
+		PO_NavView.checkElement(driver, "text", "thalia@email.com"); 
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
+	}
+	
+	//Prueba34] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza 
+	//y dichos usuarios desaparecen.
+	@Test
+	public void Prueba34() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		
+		//Comprobamos que hay estos 3 antes 
+		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com");
+		
+		//seleccionamos el primer checkbox
+		PO_HomeView.checkElement(driver, "id", "selected").get(0).click();
+		PO_HomeView.checkElement(driver, "id", "selected").get(1).click();
+		PO_HomeView.checkElement(driver, "id", "selected").get(2).click();
+		
+		//pulsamos el boton delete 
+		driver.findElement(By.id("delete")).click();
+		
+		
+		
+		//comprobamos quienes son 
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "sonia@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
 
 	}
 }
