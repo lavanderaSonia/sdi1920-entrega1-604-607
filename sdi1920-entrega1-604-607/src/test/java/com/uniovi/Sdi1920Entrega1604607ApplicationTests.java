@@ -420,6 +420,21 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// Comprobamos que nos ha redireccionado al formulario de login
 		PO_NavView.checkElement(driver, "text", "Identifícate");
 	}
+	
+	//[Prueba23] Estando autenticado como usuario estándar intentar acceder a una opción disponible
+	//solo para usuarios administradores 
+	//(Se puede añadir una opción cualquiera en el menú). Se deberá indicar un mensaje de acción prohibida
+	@Test
+	public void prueba23() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
+		
+		driver.navigate().to(URL + "/admin/user/list");
+		//SeleniumUtils.EsperaCargaPagina(driver, "text", "HTTP Status 403 – Forbidden", PO_View.getTimeout());
+		PO_NavView.checkElement(driver, "text", "Forbidden");
+
+	}
+	
 
 	// Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar
 	// el botón Submit.
@@ -463,7 +478,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	// se muestran todas las que existen para dicho usuario.
 
 	@Test
-	public void Prueba26() {
+	public void prueba26() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
 
@@ -474,16 +489,14 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		Assert.assertEquals(2,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
-		PO_View.checkElement(driver, "text", "10/03/2020");
 		PO_View.checkElement(driver, "text", "Creación de la aplicación");
-		PO_View.checkElement(driver, "text", "10/03/2020");
 		PO_View.checkElement(driver, "text", "Seguimos creando");
 	}
 
 	// [Prueba27] Mostrar el listado de publicaciones de un usuario amigo y
 	// comprobar que se muestran todas las que existen para dicho usuario.
 	@Test
-	public void Prueba27() {
+	public void prueba27() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
 
@@ -496,10 +509,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "free", "//*[@id=\"friend\"]").get(0).click();
 		
 		
-		Assert.assertEquals(1,
+		Assert.assertEquals(3,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
-		PO_View.checkElement(driver, "text", "12/03/2020");
 		PO_View.checkElement(driver, "text", "Thalía crea también la aplicación");
 		PO_View.checkElement(driver, "text", "Prueba para las publicaciones de amigos");
 	}
@@ -577,7 +589,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	
 	//[Prueba31] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el sistema.
 	@Test
-	public void Prueba31() {
+	public void prueba31() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 
@@ -602,7 +614,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	//[Prueba32] Ir a la lista de usuarios, borrar el primer usuario de la lista, 
 	//comprobar que la lista se actualiza y dicho usuario desaparece.
 	@Test
-	public void Prueba32() {
+	public void prueba32() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		
@@ -630,7 +642,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	//[Prueba33] Ir a la lista de usuarios, borrar el último usuario de la lista, 
 	//comprobar que la lista se actualiza y dicho usuario desaparece.
 	@Test
-	public void Prueba33() {
+	public void prueba33() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		
@@ -658,7 +670,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	//Prueba34] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza 
 	//y dichos usuarios desaparecen.
 	@Test
-	public void Prueba34() {
+	public void prueba34() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		
