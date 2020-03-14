@@ -2,6 +2,8 @@ package com.uniovi.controllers;
 
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +29,8 @@ import com.uniovi.validators.SignUpFormValidator;
 @Controller
 public class UsersController {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private UsersService usersService;
 
@@ -44,12 +48,14 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
+		log.info("Solicitando la página de login");
 		return "login";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
+		log.info("Solicitando la página de registro");
 		return "signup";
 	}
 
@@ -57,11 +63,14 @@ public class UsersController {
 	public String signup(@ModelAttribute @Validated User user, BindingResult result) {
 		signUpFormValidator.validate(user, result);
 		if (result.hasErrors()) {
+			log.info("El usuario no ha podido ser registrado porque alguno de sus datos presentes en el "
+					+ "formulario de registro eran incorrectos.");
 			return "signup";
 		}
 		user.setRole(rolesService.getRoles()[1]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
+		log.info("El usuario {} ha sido registrado de forma correcta. ", user);
 		return "redirect:home";
 	}
 
@@ -84,6 +93,7 @@ public class UsersController {
 		
 		model.addAttribute("usersList", users.getContent());
 		model.addAttribute("page", users);
+		log.info("Se están listando los usuarios de la apliación por petición del usuario {}.", email);
 		return "user/list";
 	}
 
@@ -98,6 +108,7 @@ public class UsersController {
 
 		model.addAttribute("friendsList", users.getContent());
 		model.addAttribute("page", users);
+		log.info("Se están listando los amigos del usuario {}. ", email);
 		return "friends/list";
 	}
 
@@ -107,6 +118,7 @@ public class UsersController {
 		String email = auth.getName();
 		User userActive = usersService.getUserByEmail(email);
 		// model.addAttribute("markList", userActive.getMarks());
+		log.info("Redirigiendo a la página home");
 		return "home";
 	}
 

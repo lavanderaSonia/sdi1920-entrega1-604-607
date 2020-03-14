@@ -2,6 +2,8 @@ package com.uniovi.controllers;
 
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +23,9 @@ import com.uniovi.services.UsersService;
 @Controller
 public class InvitationsController {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+	
 	@Autowired
 	private InvitationsService invitationsService;
 
@@ -37,7 +42,7 @@ public class InvitationsController {
 		
 		model.addAttribute("page", invitations);
 		model.addAttribute("invitationsList", invitations.getContent());
-
+		log.info("Listando las invitaciones del usuario {}.", user);
 		return "invitations/list";
 	}
 
@@ -51,7 +56,7 @@ public class InvitationsController {
 		
 		model.addAttribute("page", invitations);
 		model.addAttribute("invitationsList", invitations.getContent());
-
+		log.info("Actualizando la lista de invitaciones. ");
 		return "invitations/list :: tableInvitations";
 	}
 
@@ -61,6 +66,7 @@ public class InvitationsController {
 		User user = usersService.findByEmail(auth.getName());
 
 		invitationsService.acceptInvitation(user, id);
+		log.info("El usuario {} acepta la invitacion con id {}.", user, id);
 
 		return "redirect:/invitation/list";
 	}
@@ -71,6 +77,7 @@ public class InvitationsController {
 		User user = usersService.findByEmail(auth.getName());
 
 		invitationsService.denyInvitation(user, id);
+		log.info("El usuario {} rechaza la invitacion con id {}.", user, id);
 
 		return "redirect:/invitation/list";
 	}
@@ -82,7 +89,8 @@ public class InvitationsController {
 		User otherUser = usersService.getUser(id);
 		
 		invitationsService.sendInvitation(activeUser, otherUser);
-		
+		log.info("El usuario {} envía la invitacion con id {} al usuario {}.", activeUser, id, otherUser);
+
 		return "redirect:/user/list";
 	}
 	
