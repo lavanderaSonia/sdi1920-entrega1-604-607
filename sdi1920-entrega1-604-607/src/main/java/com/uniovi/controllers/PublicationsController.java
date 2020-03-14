@@ -3,6 +3,8 @@ package com.uniovi.controllers;
 import java.io.IOException;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,9 @@ import com.uniovi.validators.AddPublicationFormValidator;
 
 @Controller
 public class PublicationsController {
+	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 
 	@Autowired
 	private PublicationsService publicationsService;
@@ -37,6 +42,7 @@ public class PublicationsController {
 	@RequestMapping("publication/add")
 	public String getAddPublication(Model model) {
 		model.addAttribute("publication", new Publication());
+		log.info("Solicitando el formulario para añadir una publiación");
 		return "publications/add";
 	}
 
@@ -46,6 +52,7 @@ public class PublicationsController {
 		User usuarioSesion = usersService.findByEmail(auth.getName());
 		model.addAttribute("publication", new Publication());
 		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(usuarioSesion));
+		log.info("Listando las publicaciones del usuario {}. ", usuarioSesion);
 		return "publications/list";
 	}
 
@@ -58,11 +65,14 @@ public class PublicationsController {
 		if(usuarioSesion.getFriends().contains(amigo)) {
 		model.addAttribute("publication", new Publication());
 		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(amigo));
+		log.info("Listando las publicaciones del usuario {}, que es amigo del usuario {}. ", amigo, usuarioSesion);
 		return "publications/publicationsFriend";
 
 		}
-		else
+		else {
+			log.info("El usuario está intentando acceder a las publicaciones de un usuario que no es su amigo");
 			return "error";
+		}
 	}
 
 	@RequestMapping(value = "publication/add", method = RequestMethod.POST)
@@ -70,8 +80,10 @@ public class PublicationsController {
 			@RequestParam(required = false, value = "photo") MultipartFile photo) {
 
 		validator.validate(publication, result);
-		if (result.hasErrors())
+		if (result.hasErrors()) {
+			log.info("Hay errores a la hora de crear la publicación");
 			return "publications/add";
+		}
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersService.findByEmail(auth.getName());
@@ -82,12 +94,15 @@ public class PublicationsController {
 		if (photo != null)
 			try {
 				publicationsService.savePhoto(photo, publication);
+				log.info("Se guarda la foto de la publicación");
 			} catch (IOException e) {
 				e.printStackTrace();
 				return "error";
 			}
-		else
+		else {
 			publicationsService.addPublication(publication);
+			log.info("Se añade la publicación");
+		}
 		// Redireccionar a listar mis publicaciones
 		return "redirect:/publication/list";
 	}

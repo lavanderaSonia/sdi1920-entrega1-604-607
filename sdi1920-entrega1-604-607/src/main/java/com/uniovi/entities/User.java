@@ -160,6 +160,13 @@ public class User {
 		this.friends = friends;
 	}
 
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", name=" + name + ", lastName=" + lastName + ", role=" + role
+				+ "]";
+	}
+
 	
 	
 	
