@@ -74,9 +74,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	public void prueba01() {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "123456");
+		PO_RegisterView.fillForm(driver, "prueba@email.com", "Prueba", "Prueba", "123456", "123456");
 		// Comprobamos que entramos en la sección privada
-		PO_View.checkElement(driver, "text", "sonia@gmail.com");
+		PO_View.checkElement(driver, "text", "prueba@email.com");
 
 	}
 
@@ -115,7 +115,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 	public void prueba04() {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "sonia@gmail.com", "Sonia", "Garcia", "123456", "12345");
+		PO_RegisterView.fillForm(driver, "prueba@email.com", "Sonia", "Garcia", "123456", "12345");
 		// Comprobamos que entramos en la sección privada
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 
@@ -191,13 +191,13 @@ public class Sdi1920Entrega1604607ApplicationTests {
 
 		// el login ya me lleva a la lista de usuarios-> comprobamos que son 3 en total
 		// (hay 2 del InsertDataService y 1+ por las pruebas)
-		Assert.assertEquals(3,
+		Assert.assertEquals(5,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
 		// Comprobamos que son los usuarios esperados
-		PO_NavView.checkElement(driver, "text", "Thalía");
-		PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
-		PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+		PO_View.checkElement(driver, "text", "thalia@email.com");
+		PO_View.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
+		PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 
 	}
 
@@ -219,9 +219,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
 		// Comprobamos que son los usuarios esperados
-		PO_NavView.checkElement(driver, "text", "Thalía");
+		PO_NavView.checkElement(driver, "text", "thalia@email.com");
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); // Estos dos son cargados por InsertDataService
-		PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+		PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 
 	}
 
@@ -242,6 +242,8 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		// los del sistema
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "prueba@email.com", PO_View.getTimeout());
+
 
 	}
 
@@ -262,6 +264,8 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		SeleniumUtils.EsperaCargaPagina(driver, "text", "thalia@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "sonia@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "prueba@email.com", PO_View.getTimeout());
+
 
 	}
 
@@ -509,7 +513,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.checkElement(driver, "free", "//*[@id=\"friend\"]").get(0).click();
 		
 		
-		Assert.assertEquals(3,
+		Assert.assertEquals(2,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
 		PO_View.checkElement(driver, "text", "Thalía crea también la aplicación");
@@ -525,7 +529,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "sonia@email.com", "pass");
 		
-		driver.navigate().to("http://localhost:8090/publication/list/4");
+		driver.navigate().to("http://localhost:8090/publication/list/3");
 		PO_View.checkElement(driver, "text", "Error de autorización");
 		PO_View.checkElement(driver, "text", "No puedes acceder a las publicaciones de este usuario, no forma parte de tu lista de amigos");	
 	}
@@ -600,14 +604,16 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		
 		// el login ya me lleva a la lista de usuarios-> comprobamos que son 3 en total
 		// (hay 2 del InsertDataService y 1+ por las pruebas)
-		Assert.assertEquals(4,
+		Assert.assertEquals(6,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 
 		// Comprobamos que son los usuarios esperados
 		PO_NavView.checkElement(driver, "text", "thalia@email.com");
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
-		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
-		PO_View.checkElement(driver, "text", "sonia@gmail.com"); // Este es de las pruebas de registro de usuario
+		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		PO_NavView.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 
 	}
 	
@@ -618,10 +624,16 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		
-		//Comprobamos que hay estos 3 antes 
+		//Comprobamos que hay estos 9 antes 
 		PO_NavView.checkElement(driver, "text", "thalia@email.com");
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
-		PO_View.checkElement(driver, "text", "sonia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario3@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario4@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario5@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 		
 		//seleccionamos el primer checkbox
 		PO_HomeView.checkElement(driver, "id", "selected").get(0).click();
@@ -630,12 +642,18 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		driver.findElement(By.id("delete")).click();
 		
 		//comprobamos que hay dos menos 
-		Assert.assertEquals(2,
+		Assert.assertEquals(9,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 		
 		//comprobamos quienes son 
-		PO_NavView.checkElement(driver, "text", "sonia@email.com");
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario3@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario4@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario5@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
 	}
 	
@@ -646,25 +664,38 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		
-		//Comprobamos que hay estos 3 antes 
-		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		//Comprobamos que hay estos antes 
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
-		PO_View.checkElement(driver, "text", "sonia@email.com");
+		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario3@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario4@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario5@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
 		
 		//seleccionamos el primer checkbox
-		PO_HomeView.checkElement(driver, "id", "selected").get(2).click();
+		PO_HomeView.checkElement(driver, "id", "selected").get(7).click();
 		
 		//pulsamos el boton delete 
 		driver.findElement(By.id("delete")).click();
 		
 		//comprobamos que hay dos menos 
-		Assert.assertEquals(2,
+		Assert.assertEquals(7,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 		
 		//comprobamos quienes son 
-		PO_NavView.checkElement(driver, "text", "sonia@email.com");
-		PO_NavView.checkElement(driver, "text", "thalia@email.com"); 
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
+		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario3@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario4@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario5@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "prueba@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
+
 	}
 	
 	//Prueba34] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza 
@@ -674,11 +705,17 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 		
-		//Comprobamos que hay estos 3 antes 
-		PO_NavView.checkElement(driver, "text", "thalia@email.com");
+		//Comprobamos que hay estos antes 
 		PO_NavView.checkElement(driver, "text", "usuario@email.com"); 
-		PO_View.checkElement(driver, "text", "sonia@email.com");
-		
+		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario3@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario4@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario5@email.com"); 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "prueba@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
+
 		//seleccionamos el primer checkbox
 		PO_HomeView.checkElement(driver, "id", "selected").get(0).click();
 		PO_HomeView.checkElement(driver, "id", "selected").get(1).click();
@@ -687,12 +724,22 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		//pulsamos el boton delete 
 		driver.findElement(By.id("delete")).click();
 		
-		
+		Assert.assertEquals(4,
+				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 		
 		//comprobamos quienes son 
+		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "prueba@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "sonia@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "usuario1@email.com", PO_View.getTimeout());
+		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario3@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario4@email.com"); 
+		PO_NavView.checkElement(driver, "text", "usuario5@email.com"); 
+
+
 
 	}
 }

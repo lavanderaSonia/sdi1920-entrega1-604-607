@@ -43,7 +43,6 @@ public class AdminController {
 	@RequestMapping(value="/admin/user/delete", method = RequestMethod.POST)
 	public String deleteUsers(@RequestParam("selected") List<Long> users) {
 		Set<User> usuarios = new HashSet<User>();
-		if(users!=null) {
 		for(Long u: users) {
 			usuarios.add(usersService.getUser(u));
 		}
@@ -57,8 +56,6 @@ public class AdminController {
 		}
 		for(User u: usuarios) {
 			usersService.deleteUser(u.getId());
-			log.info("Eliminando el usuario {} por parte del usuario administrador.", u);
-		}
 		}
 		return "redirect:/admin/user/list";
 	}
