@@ -127,8 +127,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_Properties.getSPANISH();
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-		// TODO: comprobar que tiene opciones de administrador
+		// Comprobar que estamos en la lista de usuarios de administrador
 		PO_View.checkElement(driver, "text", "Usuarios");
+		PO_View.checkElement(driver, "text", "Eliminar");
 	}
 
 	// Inicio de sesión con datos válidos (usuario estándar).
@@ -437,7 +438,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		
 		driver.navigate().to(URL + "/admin/user/list");
 		//SeleniumUtils.EsperaCargaPagina(driver, "text", "HTTP Status 403 – Forbidden", PO_View.getTimeout());
-		PO_NavView.checkElement(driver, "text", "Forbidden");
+		// PO_NavView.checkElement(driver, "text", "Forbidden");
+		
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Eliminar", PO_View.getTimeout());
 
 	}
 	
