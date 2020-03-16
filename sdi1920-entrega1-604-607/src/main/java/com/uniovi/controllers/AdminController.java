@@ -1,9 +1,6 @@
 package com.uniovi.controllers;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,25 +41,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/user/delete", method = RequestMethod.POST)
 	public String deleteUsers(@RequestParam(value="selected", required = false) List<Long> users) {
 		if(users!=null) {
-		Set<User> usuarios = new HashSet<User>();
-		for(Long u: users) {
-			usuarios.add(usersService.getUser(u));
-		}
-		
-		Iterator<User> itu = usuarios.iterator();
-		while(itu.hasNext()) {
-		//for(User u: usuarios) {
-			User u = itu.next();
-			Set<User> friendsOfU= u.getFriends(); 
-			Iterator<User> it = friendsOfU.iterator();
-			while(it.hasNext()) {
-			//for(User friend: friendsOfU) {  
-				User friend = it.next();
-				friend.getFriends().remove(u); 
-				friendsOfU.remove(friend);
-			}
-		}
-		for(User u: usuarios) {
+		for(User u: usersService.deleteUsers(users)) {
 			usersService.deleteUser(u.getId());
 			log.info("Eliminando el usuario {} por parte del usuario administrador.", u);
 		}
