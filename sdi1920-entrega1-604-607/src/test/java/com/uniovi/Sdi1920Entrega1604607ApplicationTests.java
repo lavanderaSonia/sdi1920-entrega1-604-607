@@ -632,7 +632,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
 		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
 		PO_NavView.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
-		//PO_NavView.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
+		PO_NavView.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 		
 		//seleccionamos el primer checkbox
 		PO_HomeView.checkElement(driver, "id", "selected").get(0).click();
@@ -641,7 +641,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		driver.findElement(By.id("delete")).click();
 		
 		//comprobamos que hay 1 menos 
-		Assert.assertEquals(4,
+		Assert.assertEquals(5,
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 		
 		//comprobamos quienes son 
@@ -649,7 +649,7 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		PO_NavView.checkElement(driver, "text", "usuario1@email.com"); 
 		PO_NavView.checkElement(driver, "text", "usuario2@email.com"); 
 		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
-		//PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
+		PO_View.checkElement(driver, "text", "prueba@email.com"); // Este es de las pruebas de registro de usuario
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
 	}
 	
@@ -715,7 +715,6 @@ public class Sdi1920Entrega1604607ApplicationTests {
 				SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout()).size());
 		
 		//comprobamos quienes son 
-		PO_View.checkElement(driver, "text", "sonia@email.com"); // Estos tres son cargados por InsertDataService
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "prueba@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "thalia@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "sonia@email.com", PO_View.getTimeout());

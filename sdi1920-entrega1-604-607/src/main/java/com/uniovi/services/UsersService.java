@@ -1,7 +1,10 @@
 package com.uniovi.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +46,32 @@ public class UsersService {
 	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		usersRepository.save(user);
+	}
+	
+	public List<User> deleteUsers(List<Long> ids) {
+		Set<User> usuarios = new HashSet<User>();
+		for(Long u: ids) {
+			usuarios.add(getUser(u));
+		}
+		
+		Iterator<User> itu = usuarios.iterator();
+		while(itu.hasNext()) {
+		//for(User u: usuarios) {
+			User u = itu.next();
+			Set<User> friendsOfU= u.getFriends(); 
+			Iterator<User> it = friendsOfU.iterator();
+			while(it.hasNext()) {
+			//for(User friend: friendsOfU) {  
+				User friend = it.next();
+				friend.getFriends().remove(u);
+				it.remove();
+				//friendsOfU.remove(friend);
+			}
+		}
+		List<User> users = new ArrayList<User>();
+		for(User u: usuarios)
+			users.add(u);
+		return users;
 	}
 	
 	public void deleteUser(Long id) {
