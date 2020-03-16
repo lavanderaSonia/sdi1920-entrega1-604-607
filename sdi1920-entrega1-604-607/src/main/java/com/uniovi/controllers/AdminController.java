@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -48,9 +49,15 @@ public class AdminController {
 			usuarios.add(usersService.getUser(u));
 		}
 		
-		for(User u: usuarios) {
+		Iterator<User> itu = usuarios.iterator();
+		while(itu.hasNext()) {
+		//for(User u: usuarios) {
+			User u = itu.next();
 			Set<User> friendsOfU= u.getFriends(); 
-			for(User friend: friendsOfU) {  
+			Iterator<User> it = friendsOfU.iterator();
+			while(it.hasNext()) {
+			//for(User friend: friendsOfU) {  
+				User friend = it.next();
 				friend.getFriends().remove(u); 
 				friendsOfU.remove(friend);
 			}

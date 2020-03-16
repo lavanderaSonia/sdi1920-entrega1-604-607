@@ -45,8 +45,8 @@ public class InsertDataService {
 		usersService.addUser(thalia);
 		usersService.addUser(user);
 		usersService.addUser(sonia);
-		//usersService.addUser(user1);
-		//usersService.addUser(user2);
+		usersService.addUser(user1);
+		usersService.addUser(user2);
 
 	
 		
