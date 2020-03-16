@@ -91,17 +91,11 @@ public class PublicationsController {
 		publication.setPublicationDate(new Date());
 		publication.setUser(user);
 
-		if (photo != null)
-			try {
-				publicationsService.savePhoto(photo, publication);
-				log.info("Se guarda la foto de la publicación");
-			} catch (IOException e) {
-				e.printStackTrace();
-				return "error";
-			}
-		else {
-			publicationsService.addPublication(publication);
-			log.info("Se añade la publicación");
+		try {
+			publicationsService.savePhoto(photo, publication);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "error";
 		}
 		// Redireccionar a listar mis publicaciones
 		return "redirect:/publication/list";

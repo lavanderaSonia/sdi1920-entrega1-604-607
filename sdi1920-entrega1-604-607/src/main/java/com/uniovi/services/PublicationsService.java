@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,10 +21,13 @@ public class PublicationsService {
 
 	private String uploadFolder = "src/main/resources/static/files/";
 	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private PublicationsRepository publicationsRepository;
 	
 	public void addPublication(Publication publication) {
+		log.info("Añadida la publicación {} del usuario {}.", publication.getTitle(), publication.getUser().getName());
 		publicationsRepository.save(publication);
 	}
 	
@@ -38,9 +43,12 @@ public class PublicationsService {
 		publication.setHavePhoto(true);
 		this.addPublication(publication);
 		
-		byte[] bytes = photo.getBytes();		
-		Path path = Paths.get(uploadFolder + publication.getId());
-		Files.write(path,  bytes);
+		byte[] bytes = photo.getBytes();	
+		if(bytes.length > 0) {
+			Path path = Paths.get(uploadFolder + publication.getId());
+			Files.write(path,  bytes);
+			log.info("Guardada la imagen para la publicación con ID {}.", publication.getId());
+		}
 	}
 
 	public List<Publication> getPublicationsOfUser(User name) {
