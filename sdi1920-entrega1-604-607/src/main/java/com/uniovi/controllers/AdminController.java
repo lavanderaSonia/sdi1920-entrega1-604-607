@@ -30,9 +30,8 @@ public class AdminController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User userActive = usersService.getUserByEmail(email);
-		List<User> users = usersService.getUsers();
-		if(users.remove(userActive))
-			model.addAttribute("usersList", users);
+		List<User> users = usersService.getUsersWithoutUser(userActive);
+		model.addAttribute("usersList", users);
 		model.addAttribute("user", new User());
 		log.info("Listado de los usuarios de la aplicación por parte de {}. ", userActive);
 		return "user/listByAdmin";
