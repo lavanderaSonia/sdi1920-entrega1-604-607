@@ -439,8 +439,9 @@ public class Sdi1920Entrega1604607ApplicationTests {
 		driver.navigate().to(URL + "/admin/user/list");
 		//SeleniumUtils.EsperaCargaPagina(driver, "text", "HTTP Status 403 – Forbidden", PO_View.getTimeout());
 		// PO_NavView.checkElement(driver, "text", "Forbidden");
-		
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Eliminar", PO_View.getTimeout());
+		//assertTrue(driver.getTitle().contains("Forbidden"));
+		SeleniumUtils.textoPresentePagina(driver, "HTTP Status 403 – Forbidden");		
+		//SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Eliminar", PO_View.getTimeout());
 
 	}
 	

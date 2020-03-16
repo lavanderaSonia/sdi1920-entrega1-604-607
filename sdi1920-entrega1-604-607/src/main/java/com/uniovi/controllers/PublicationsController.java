@@ -46,15 +46,7 @@ public class PublicationsController {
 		return "publications/add";
 	}
 
-	@RequestMapping("publication/list")
-	public String getListPublication(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User usuarioSesion = usersService.findByEmail(auth.getName());
-		model.addAttribute("publication", new Publication());
-		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(usuarioSesion));
-		log.info("Listando las publicaciones del usuario {}. ", usuarioSesion);
-		return "publications/list";
-	}
+	
 
 	@RequestMapping("publication/list/{id}")
 	public String getListPublicationsOfFriend(Model model, @PathVariable Long id) {
@@ -73,6 +65,16 @@ public class PublicationsController {
 			log.info("El usuario está intentando acceder a las publicaciones de un usuario que no es su amigo");
 			return "error";
 		}
+	}
+	
+	@RequestMapping("publication/list")
+	public String getListPublication(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User usuarioSesion = usersService.findByEmail(auth.getName());
+		model.addAttribute("publication", new Publication());
+		model.addAttribute("publicationsList", publicationsService.getPublicationsOfUser(usuarioSesion));
+		log.info("Listando las publicaciones del usuario {}. ", usuarioSesion);
+		return "publications/list";
 	}
 
 	@RequestMapping(value = "publication/add", method = RequestMethod.POST)
