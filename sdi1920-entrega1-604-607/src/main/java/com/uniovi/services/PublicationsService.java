@@ -40,15 +40,16 @@ public class PublicationsService {
 	}
 
 	public void savePhoto(MultipartFile photo, Publication publication) throws IOException {
-		publication.setHavePhoto(true);
-		this.addPublication(publication);
 		
 		byte[] bytes = photo.getBytes();	
 		if(bytes.length > 0) {
+			publication.setHavePhoto(true);
+			this.addPublication(publication);
 			Path path = Paths.get(uploadFolder + publication.getId());
 			Files.write(path,  bytes);
 			log.info("Guardada la imagen para la publicación con ID {}.", publication.getId());
-		}
+		} else
+			this.addPublication(publication);
 	}
 
 	public List<Publication> getPublicationsOfUser(User name) {
