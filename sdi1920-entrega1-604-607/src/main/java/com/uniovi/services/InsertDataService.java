@@ -31,6 +31,9 @@ public class InsertDataService {
 		User user = new User("usuario@email.com", "usuario", "usuario", "usuario", "usuario", "ROLE_USER");
 		User thalia = new User("thalia@email.com", "Thalía", "Cuetos", "pass", "pass", "ROLE_USER");
 		User sonia = new User("sonia@email.com", "Sonia", "García", "pass", "pass", "ROLE_USER");
+		
+		User user1= new User("usuario1@email.com", "usuario1", "usuario1", "usuario1", "usuario1", "ROLE_USER");
+		User user2= new User("usuario2@email.com", "usuario2", "usuario2", "usuario2", "usuario2", "ROLE_USER");
 
 		
 		sonia.getFriends().add(thalia);
@@ -42,6 +45,8 @@ public class InsertDataService {
 		usersService.addUser(thalia);
 		usersService.addUser(user);
 		usersService.addUser(sonia);
+		usersService.addUser(user1);
+		usersService.addUser(user2);
 
 	
 		

@@ -114,10 +114,6 @@ public class UsersController {
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User userActive = usersService.getUserByEmail(email);
-		// model.addAttribute("markList", userActive.getMarks());
 		log.info("Redirigiendo a la página home");
 		return "home";
 	}
