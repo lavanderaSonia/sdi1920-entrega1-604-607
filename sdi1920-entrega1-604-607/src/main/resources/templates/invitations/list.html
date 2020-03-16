@@ -1,16 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="fragments/head" />
-<body>
-	<nav th:replace="fragments/nav" />
-
-	<div class="container">
-		<h2 th:text="#{invitations}">Invitaciones de amistad</h2>
-		<p th:text="#{invitations.message}">Has recibido las siguientes
-			invitaciones de amistad:</p>
-		<button type="button" id="updateButton" class="btn btn-default"
-			th:text="#{update}">Actualizar</button>
-		<script th:inline="javascript">
+<script th:inline="javascript">
  			/*<![CDATA[*/
  			$( "#updateButton" ).click(function() {
  				var numberPage = [[${param.page}]];
@@ -22,6 +13,15 @@
  				});
  			/*]]>*/
  </script>
+<body>
+	<nav th:replace="fragments/nav" />
+
+	<div class="container">
+		<h2 th:text="#{invitations}">Invitaciones de amistad</h2>
+		<p th:text="#{invitations.message}">Has recibido las siguientes
+			invitaciones de amistad:</p>
+		<button type="button" id="updateButton" class="btn btn-default"
+			th:text="#{update}">Actualizar</button>
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableInvitations"
 				id="tableInvitations">
@@ -33,16 +33,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:id="${'invitation' + invitation.id}" th:each="invitation : ${invitationsList}">
-						<td th:text="${invitation.applicant.name + ' ' + invitation.applicant.lastName}"> Nombre </td>
-						<td><a th:id="${'accept/' + invitation.applicant.name}" th:href="${'/invitation/accept/' + invitation.id}" th:text="#{accept}"> Aceptar </a></td>
-						<td><a th:href="${'/invitation/deny/' + invitation.id}" th:text="#{deny}"> Rechazar </a></td>
+					<tr th:id="${'invitation' + invitation.id}"
+						th:each="invitation : ${invitationsList}">
+						<td
+							th:text="${invitation.applicant.name + ' ' + invitation.applicant.lastName}">
+							Nombre</td>
+						<td><a th:id="${'accept/' + invitation.applicant.name}"
+							th:href="${'/invitation/accept/' + invitation.id}"
+							th:text="#{accept}"> Aceptar </a></td>
+						<td><a th:href="${'/invitation/deny/' + invitation.id}"
+							th:text="#{deny}"> Rechazar </a></td>
 					</tr>
 				</tbody>
+				</div>
+			</table>
 		</div>
-		<footer th:replace="fragments/pagination" />
-
 	</div>
 </body>
+<footer th:replace="fragments/pagination" />
 <footer th:replace="fragments/footer" />
 </html>
